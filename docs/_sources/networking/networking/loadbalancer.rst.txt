@@ -1,0 +1,15 @@
+IP Load Balancing
+-----------------
+
+The user may choose to associate the same public IP for multiple guests.
+Zergaw CloudStack implements a TCP-level load balancer with the following
+policies.
+
+-	Round-robin
+
+-	Least connection
+
+-	Source IP
+
+This is similar to port forwarding but the destination may be multiple
+IP addresses.

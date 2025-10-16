@@ -1,0 +1,142 @@
+.. _about-vpc:
+
+VPC
+~~~~
+
+Zergaw CloudStack Virtual Private Cloud is a private, isolated part of
+CloudStack. A VPC can have its own virtual Network topology that
+resembles a traditional physical Network. You can launch Instances in the
+virtual Network that can have private addresses in the range of your
+choice, for example: 10.0.0.0/16. You can define Network Tiers within
+your VPC Network range, which in turn enables you to group similar kinds
+of Instances based on IP address range.
+
+For example, if a VPC has the private range 10.0.0.0/16, its guest
+Networks can have the Network ranges 10.0.1.0/24, 10.0.2.0/24,
+10.0.3.0/24, and so on.
+
+
+Major Components of a VPC
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A VPC is comprised of the following Network components:
+
+-  **VPC**: A VPC acts as a container for multiple isolated Networks
+   that can communicate with each other via its virtual router.
+
+-  **Network Tiers**: Each Network Tier acts as an isolated Network with its own
+   VLANs and CIDR list, where you can place groups of resources, such as
+   Instances. The Network Tiers are segmented by means of VLANs. The NIC of each
+   Network Tier acts as its gateway.
+
+-  **Virtual Router**: A virtual router is automatically created and
+   started when you create a VPC. The virtual router connect the Network Tiers
+   and direct traffic among the public gateway, the VPN gateways, and
+   the NAT Instances. For each Network Tier, a corresponding NIC and IP exist in
+   the virtual router. The virtual router provides DNS and DHCP services
+   through its IP.
+
+-  **Public Gateway**: The traffic to and from the Internet routed to
+   the VPC through the public gateway. In a VPC, the public gateway is
+   not exposed to the end user; therefore, static routes are not support
+   for the public gateway.
+
+-  **Private Gateway**: All the traffic to and from a private Network
+   routed to the VPC through the private gateway. For more information,
+   see ":ref:`adding-priv-gw-vpc`".
+
+-  **VPN Gateway**: The VPC side of a VPN connection.
+
+-  **Site-to-Site VPN Connection**: A hardware-based VPN connection
+   between your VPC and your datacenter, home Network, or co-location
+   facility. For more information, see ":ref:`setting-s2s-vpn-conn`".
+
+-  **Customer Gateway**: The customer side of a VPN Connection. For more
+   information, see `"Creating and Updating a VPN
+   Customer Gateway" <#creating-and-updating-a-vpn-customer-gateway>`_.
+
+-  **NAT Instance**: An Instance that provides Port Address Translation
+   for Instances to access the Internet via the public gateway. For more
+   information, see ":ref:`enabling-disabling-static-nat-on-vpc`".
+
+-  **Network ACL**: Network ACL is a group of Network ACL items. Network
+   ACL items are nothing but numbered rules that are evaluated in order,
+   starting with the lowest numbered rule. These rules determine whether
+   traffic is allowed in or out of any Network Tier associated with the Network
+   ACL. For more information, see ":ref:`conf-net-acl`".
+
+
+Network Architecture in a VPC
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In a VPC, the following four basic options of Network architectures are
+present:
+
+-  VPC with a public gateway only
+
+-  VPC with public and private gateways
+
+-  VPC with public and private gateways and site-to-site VPN access
+
+-  VPC with a private gateway only and site-to-site VPN access
+
+
+Connectivity Options for a VPC
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can connect your VPC to:
+
+-  The Internet through the public gateway.
+
+-  The corporate datacenter by using a site-to-site VPN connection
+   through the VPN gateway.
+
+-  Both the Internet and your corporate datacenter by using both the
+   public gateway and a VPN gateway.
+
+
+VPC Network Considerations
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Consider the following before you create a VPC:
+
+-  A VPC, by default, is created in the enabled state.
+
+-  A VPC can be created in Advance zone only, and can't belong to more
+   than one zone at a time.
+
+-  The default number of VPCs an Account can create is 20.
+
+-  The default number of Network Tiers an Account can create within a VPC is 3.
+
+-  Each Network Tier should have an unique CIDR in the VPC. Ensure that the
+   Network Tier's CIDR should be within the VPC CIDR range.
+
+-  A Network Tier belongs to only one VPC.
+
+-  All Network Tiers inside the VPC should belong to the same Account.
+
+-  When a VPC is created, by default, a SourceNAT IP is allocated to it.
+   The Source NAT IP is released only when the VPC is removed.
+
+-  A public IP can be used for only one purpose at a time. If the IP is
+   a sourceNAT, it cannot be used for StaticNAT or port forwarding.
+
+-  The Instances can only have a private IP address that you provision.
+   To communicate with the Internet, enable NAT to an Instance that you
+   launch in your VPC.
+
+-  Only new Networks can be added to a VPC.
+
+-  The load balancing service can be supported by only one Network Tier
+   inside the VPC.
+
+-  If an IP address is assigned to a Network Tier:
+
+   -  That IP can't be used by more than one Network Tier at a time in the VPC.
+      For example, if you have Network Tiers A and B, and a public IP1, you can
+      create a port forwarding rule by using the IP either for A or B,
+      but not for both.
+
+   -  That IP can't be used for StaticNAT, load balancing, or port
+      forwarding rules for another guest Network inside the VPC.

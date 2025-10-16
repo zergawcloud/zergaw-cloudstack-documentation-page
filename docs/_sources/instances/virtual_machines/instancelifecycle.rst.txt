@@ -1,0 +1,124 @@
+Instance Lifecycle
+==================
+
+Instances can be in the following states:
+
+- Created
+- Running
+- Stopped
+- Destroyed
+- Expunged
+
+With the intermediate states of
+
+- Creating
+- Starting
+- Stopping
+- Expunging
+
+
+Creating Instances
+------------------
+
+Instance are usually created from a Template. Users can also
+create blank Instances. A blank Instance is a virtual
+machine without an OS Template. Users can attach an ISO file and install
+the OS from the CD/DVD-ROM.
+
+.. note::
+   You can create an Instance without starting it. You can determine whether the
+   Instance needs to be started as part of the Instance deployment. A request parameter,
+   startVM, in the deployVm API provides this feature. For more information,
+   see the Developer's Guide.
+
+To create an Instance from a Template:
+
+#. Log in to the UI as an administrator or User.
+
+#. In the left navigation bar, click Compute -> Instances.
+
+#. Click the Add Instance button.
+
+#. Select a zone.
+
+#. Select a Template or ISO. For more information about how the Templates came
+   to be in this list, see `*Working with Templates* <templates.html>`_.
+
+#. Select a service offering.
+
+#. Select a disk offering.
+
+#. Select/Add a Network.
+
+#. Click Launch Instance and your Instance will be created and started.
+
+Accessing Instances
+-------------------
+
+Any User can access their own Instances. To access an Instance through the UI:
+
+#. Log in to the Zergaw CloudStack UI as a User or admin.
+
+#. Click Compute -> Instances, then click the name of a running Instance.
+
+#. Click the View Console button |console-icon.png|.
+
+To access an Instance directly over the Network:
+
+#. The Instance must have some port open to incoming traffic. You can open a port by
+   setting up a port forwarding policy. See `“IP
+   Forwarding and Firewalling” <advanced_zone_config.html#ip-forwarding-and-firewalling>`_.
+
+#. If a port is open but you can not access the Instance using ssh, it’s
+   possible that ssh is not already enabled on the Instance. This will depend
+   on whether ssh is enabled in the Template you picked when creating
+   the Instance. Access the Instance through the UI and enable ssh on the
+   machine using the commands for the Instance’s operating system.
+
+Stopping and Starting Instance
+-------------------------------
+
+Once an Instance is created, you can stop, restart, or delete it as
+needed. In the UI, click Instances, select the Instance, and use
+the Stop, Start, Reboot, and Destroy buttons.
+
+A stop will attempt to gracefully shut down the operating system, via
+an ACPI 'stop' command which is similar to pressing the soft power switch
+on a physical server. If the operating system cannot be stopped, it will
+be forcefully terminated. This has the same effect as pulling out the power
+cord from a physical machine.
+
+A reboot should not be considered as a stop followed by a start. In Zergaw CloudStack,
+a start command reconfigures the Instance to the stored parameters in the database. 
+The reboot process does not do this.
+
+Deleting Instance
+------------------
+
+Users can delete their own Instance. A running Instance will be abruptly stopped
+before it is deleted.
+
+To delete an Instance:
+
+#. Log in to the UI as a User or admin.
+
+#. In the left navigation, click Compute -> Instances.
+
+#. Choose the Instance that you want to delete.
+
+#. Click the Destroy Instance button. |Destroyinstance.png|
+
+#. Optionally both expunging and the deletion of any attached volumes can be enabled.
+
+When an Instance is **destroyed**, it can no longer be seen by the end User,
+however, it can be seen (and recovered) by a root admin.  In this state it still
+consumes logical resources. When the Instance and its root disk
+have been deleted, the Instance is said to have been expunged.
+
+Once an Instance is **expunged**, it cannot be recovered. All the
+resources used by the Instance will be reclaimed by the system,
+This includes the Instance’s IP address.
+
+
+.. |console-icon.png| image:: /_static/images/console-icon.png
+   :alt: depicts adding an iso image

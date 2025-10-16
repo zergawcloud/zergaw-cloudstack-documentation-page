@@ -1,0 +1,132 @@
+Firewall
+----------
+
+By default, all incoming traffic to the public IP address is rejected.
+All outgoing traffic from the guests is also blocked by default.
+
+To allow outgoing traffic, follow the procedure in :ref:`egress-fw-rules`.
+
+To allow incoming traffic, users may set up firewall rules and/or port
+forwarding rules. For example, you can use a firewall rule to open a
+range of ports on the public IP address, such as 33 through 44. Then use
+port forwarding rules to direct traffic from individual ports within
+that range to specific ports on user instances. For example, one port
+forwarding rule could route incoming traffic on the public IP's port 33
+to port 100 on one user instance's private IP.
+
+
+Ingress Firewall Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, all incoming traffic to the public IP address is rejected by
+the firewall. To allow external traffic, you can open firewall ports by
+specifying firewall rules. You can optionally specify one or more CIDRs
+to filter the source IPs. This is useful when you want to allow only
+incoming requests from certain IP addresses.
+
+
+
+To create a firewall rule:
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click the name of the network where you want to work with.
+
+#. Click Public IP Addresses tab.
+
+#. Click the IP address you want to work with.
+
+#. Click the Firewall tab and fill in the following values.
+
+   -  **Source CIDR**: (Optional) To accept only traffic from IP
+      addresses within a particular address block, enter a CIDR or a
+      comma-separated list of CIDRs. Example: 192.168.0.0/22. Leave
+      empty to allow all CIDRs.
+
+   -  **Protocol**: The communication protocol in use on the opened
+      port(s).
+
+   -  **Start Port and End Port**: The port(s) you want to open on the
+      firewall. If you are opening a single port, use the same number in
+      both fields
+
+   -  **ICMP Type and ICMP Code**: Used only if Protocol is set to ICMP.
+      Provide the type and code required by the ICMP protocol to fill
+      out the ICMP header. Refer to ICMP documentation for more details
+      if you are not sure what to enter
+
+#. Click Add.
+
+
+.. _egress-fw-rules:
+
+Egress Firewall Rules 
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The egress traffic originates from a private network to a public
+network, such as the Internet. By default, the egress traffic is blocked
+in default network offerings, so no outgoing traffic is allowed from a
+guest network to the Internet. However, you can control the egress
+traffic in an Advanced zone by creating egress firewall rules. When an
+egress firewall rule is applied, the traffic specific to the rule is
+allowed and the remaining traffic is blocked. When all the firewall
+rules are removed the default policy, Block, is applied.
+
+
+Prerequisites and Guidelines
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Consider the following scenarios to apply egress firewall rules:
+
+-  The egress firewall rules are not supported on shared networks.
+
+-  Allow the egress traffic from specified source CIDR. The Source CIDR
+   is part of guest network CIDR.
+
+-  Allow the egress traffic with protocol TCP,UDP,ICMP, or ALL.
+
+-  Allow the egress traffic with protocol and destination port range.
+   The port range is specified for TCP, UDP or for ICMP type and code.
+
+-  The default policy is Allow for the new network offerings, whereas on
+   upgrade existing network offerings with firewall service providers
+   will have the default egress policy Deny.
+
+
+Configuring an Egress Firewall Rule
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. In Select view, choose Guest networks, then click the Guest network
+   you want.
+
+#. To add an egress rule, click the Egress rules tab and fill out the
+   following fields to specify what type of traffic is allowed to be
+   sent out of instances in this guest network:
+
+   |egress-firewall-rule.png|
+
+   -  **CIDR**: (Add by CIDR only) To send traffic only to the IP
+      addresses within a particular address block, enter a CIDR or a
+      comma-separated list of CIDRs. The CIDR is the base IP address of
+      the destination. For example, 192.168.0.0/22. To allow all CIDRs,
+      set to 0.0.0.0/0.
+
+   -  **Protocol**: The networking protocol that instances uses to send
+      outgoing traffic. The TCP and UDP protocols are typically used for
+      data exchange and end-user communications. The ICMP protocol is
+      typically used to send error messages or network monitoring data.
+
+   -  **Start Port, End Port**: (TCP, UDP only) A range of listening
+      ports that are the destination for the outgoing traffic. If you
+      are opening a single port, use the same number in both fields.
+
+   -  **ICMP Type, ICMP Code**: (ICMP only) The type of message and
+      error code that are sent.
+
+#. Click Add.

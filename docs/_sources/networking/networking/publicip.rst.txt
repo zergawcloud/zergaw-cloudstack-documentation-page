@@ -1,0 +1,102 @@
+Public IP
+-----------
+
+
+Acquiring a New IP Address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click the name of the network where you want to work with.
+
+#. Click the Public IP Addresses tab.
+
+#. Click Acquire New IP.
+
+   The Acquire New IP window is displayed.
+
+   Within a few moments, the new IP address should appear with the state
+   Allocated. You can now use the IP address in port forwarding or
+   static NAT rules.
+
+
+
+Releasing an IP Address
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the last rule for an IP address is removed, you can release that IP
+address. The IP address still belongs to the VPC; however, it can be
+picked up for any guest network again.
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click the name of the network where you want to work with.
+
+#. Click Public IP Addresses.
+
+#. Click the IP address you want to release.
+
+#. Click the Release IP button. |ReleaseIPButton.png|
+
+
+.. |ReleaseIPButton.png| image:: /_static/images/release-ip-icon.png
+   :alt: button to release an IP
+
+
+
+Reserving a Public IP Address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a public IP address is Free, you can reserve the public IP address.
+The public IP address can be reserved to the caller or other accounts.
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click Public IP Addresses. By default, it displays the Public IP Addresses
+   in Allocate state.
+
+#. Filter the Public IP Addresses by state 'Free'
+
+#. Click the Public IP address you want to reserve.
+
+#. Click the Reserve IP button.
+
+   The Reserve Public IP dialog is displayed.
+
+#. In the drop-down list, select the Account Type (Account or Project), Domain,
+   and Account or Project that you would like to reserve this Public IP to.
+
+#. Click Submit button.
+
+    Reserved Public IP Addresses can be acquired and used in isolated Networks
+    or VPCs of the accounts which the Public IP Addresses are reserved to.
+
+    Reserved Public IP Addresses will be considered as an used Public IP of 
+    the account and domain.
+
+Releasing a Reserved Public IP Address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a public IP address is Reserved, you can release the public IP address so
+that the public IP address is ready for use by other accounts.
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click Public IP Addresses. By default, it displays the Public IP Addresses
+   in Allocate state.
+
+#. Filter the Public IP Addresses by state 'Reserved'
+
+#. Click the Public IP address you want to release.
+
+#. Click the Release IP button.
+
+#. Click OK button.

@@ -1,0 +1,58 @@
+Roles, Accounts, Users, and Domains
+-----------------------------------
+
+Roles
+~~~~~
+
+A role represents a set of allowed functions. All Accounts have a
+role attached to them that enforce access rules on them to be allowed or
+disallowed to make an API request. 
+
+
+Accounts
+~~~~~~~~
+
+An Account typically represents a customer of the service provider or a
+department in a large organization. Multiple Users can exist in an
+Account.
+
+
+Domains
+~~~~~~~
+
+Accounts are grouped by domains. Domains usually contain multiple
+Accounts that have some logical relationship to each other and a set of
+delegated administrators with some authority over the domain and its
+subdomains. For example, a service provider with several resellers could
+create a domain for each reseller.
+
+Users
+~~~~~
+
+Users are like aliases in the Account. Users in the same Account are not
+isolated from each other, but they are isolated from Users in other
+Accounts. Most installations need not surface the notion of Users; they
+just have one User per Account. The same User cannot belong to multiple
+Accounts.
+
+Username is unique in a domain across Accounts in that domain. The same
+username can exist in other domains, including sub-domains. Domain name
+can repeat only if the full pathname from root is unique.
+
+Domain Administrators
+~~~~~~~~~~~~~~~~~~~~~
+
+Domain administrators can perform administrative operations for Users
+who belong to that domain. Domain administrators do not have visibility
+into physical servers or other domains.
+
+Resource Ownership
+~~~~~~~~~~~~~~~~~~
+
+Resources belong to the Account, not individual Users in that Account.
+For example, billing, resource limits, and so on are maintained by the
+Account, not the Users. A User can operate on any resource in the
+Account provided the User has privileges for that operation. The
+privileges are determined by the role. 
+
+.. _using-dynamics-roles:

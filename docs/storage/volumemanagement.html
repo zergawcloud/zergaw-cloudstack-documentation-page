@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Volume Management | Zergaw CloudStack</title>
+<meta content="Volume Management | Zergaw CloudStack" property="og:title"/>
+<meta content="Volume Management | Zergaw CloudStack" name="twitter:title"/>
+<link href="../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme_overrides.css?v=82226792" rel="stylesheet" type="text/css"/>
+<link href="https://zergawcloud.github.io/zergaw-cloudstack-doc/storage/volumemanagement.html" rel="canonical"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="volume/volumesnapshot.html" rel="next" title="Volume Snapshots"/>
+<link href="volumeoverview.html" rel="prev" title="Volume Overview"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" @scroll.window="showScrollTop = pageYOffset &gt; 100" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="24" src="../_static/zergaw-dark.png" width="24"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="24" src="../_static/zergaw-light.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a><nav class="flex items-center space-x-6 text-sm font-medium">
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://cloudstack.zergaw.com" rel="noopener nofollow">Portal</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../index.html">Doc</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../faq/index.html">FAQ</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../howto/index.html">How to's</a>
+</nav></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="16" src="../_static/zergaw-dark.png" width="16"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="16" src="../_static/zergaw-light.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="flex md:hidden flex-col font-medium mt-4">
+<a href="https://cloudstack.zergaw.com" rel="nofollow noopener">Portal</a>
+<a href="../index.html">Doc</a>
+<a href="../faq/index.html">FAQ</a>
+<a href="../howto/index.html">How to's</a>
+</nav><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../introduction/onboarding.html">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/ui.html">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/quickstart.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/concepts.html">Terminologies</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../templateandiso/templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templateandiso/isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpcnetwork.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/firewall.html">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/nat.html">IP Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/publicip.html">Public IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpn.html">VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../instances/index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../instances/instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instancemanagement.html">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instanceuserdata.html">Instance User-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instanceautoscale.html">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">Zergaw CloudStack</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">Storage</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Volume Management</span>
+</nav>
+<div id="content" role="main">
+<section id="volume-management">
+<h1>Volume Management<a class="headerlink" href="#volume-management" title="Link to this heading"><span>#</span></a></h1>
+<section id="creating-a-new-volume">
+<h2>Creating a New Volume<a class="headerlink" href="#creating-a-new-volume" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#creating-a-new-volume'"><span>#</span></a></h2>
+<p>You can add more data disk volumes to a Guest Instance at any time, up to the
+limits of your storage capacity. When you create a new volume, it
+is stored as an entity in the database, but the actual storage resources
+are not allocated on the physical storage device until you attach the
+volume.</p>
+<p>When creating a new volume from an existing ROOT Volume Snapshot,
+it is required to explicitly define a Disk offering (UI will offer only Disk
+offerings whose disk size is equal or bigger than the size of the Snapshot).</p>
+<p><img alt="Offering is needed when creating a volume from the ROOT Volume Snapshot." src="../_images/volume-from-snap.png"/></p>
+<p>When creating a new volume from an existing DATA Volume Snapshot, the disk offering
+associated with the Snapshots (inherited from the original volume) is assigned
+to the new volume.</p>
+<section id="to-create-a-new-volume">
+<h3>To Create a New Volume<a class="headerlink" href="#to-create-a-new-volume" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#to-create-a-new-volume'"><span>#</span></a></h3>
+<ol class="arabic">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the left navigation bar, click Storage.</p></li>
+<li><p>In Select View, choose Volumes.</p></li>
+<li><p>To create a new volume, click Add Volume, provide the following
+details, and click OK.</p>
+<ul class="simple">
+<li><p>Name. Give the volume a unique name so you can find it later.</p></li>
+<li><p>Availability Zone. Where do you want the storage to reside? This
+should be close to the Instance that will use the volume.</p></li>
+<li><p>Disk Offering. Choose the characteristics of the storage.</p></li>
+</ul>
+<p>The new volume appears in the list of volumes with the state
+“Allocated.” The volume data is stored in the database, but the volume
+is not yet ready for use</p>
+</li>
+<li><p>To start using the volume, continue to Attaching a Volume</p></li>
+</ol>
+</section>
+</section>
+<section id="uploading-an-existing-volume-to-an-instance">
+<h2>Uploading an Existing Volume to an Instance<a class="headerlink" href="#uploading-an-existing-volume-to-an-instance" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#uploading-an-existing-volume-to-an-instance'"><span>#</span></a></h2>
+<p>Existing data can be made accessible to an Instance. This is
+called uploading a volume to the Instance. For example, this is useful to
+upload data from a local file system and attach it to an Instance.</p>
+<p>The upload is performed using HTTP. The uploaded volume is placed in the
+zone’s secondary storage</p>
+<p>You cannot upload a volume if the preconfigured volume limit has already
+been reached.</p>
+<p>To upload a volume:</p>
+<ol class="arabic">
+<li><p>(Optional) Create an MD5 hash (checksum) of the disk image file that
+you are going to upload. After uploading the data disk, CloudStack
+will use this value to verify that no data corruption has occurred.</p></li>
+<li><p>Log in to the UI as an administrator or User</p></li>
+<li><p>In the left navigation bar, click Storage.</p></li>
+<li><p>Click Upload Volume.</p></li>
+<li><p>Provide the following:</p>
+<ul>
+<li><p>Name and Description. Any desired name and a brief description
+that can be shown in the UI.</p></li>
+<li><p>Availability Zone. Choose the zone where you want to store the
+volume. Instances running on hosts in this zone can attach the volume.</p></li>
+<li><p>Format. Choose one of the following to indicate the disk image
+format of the volume.</p>
+<table class="table-striped table-bordered table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hypervisor</p></th>
+<th class="head"><p>Disk Image Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>XenServer</p></td>
+<td><p>VHD</p></td>
+</tr>
+<tr class="row-odd"><td><p>VMware</p></td>
+<td><p>OVA</p></td>
+</tr>
+<tr class="row-even"><td><p>KVM</p></td>
+<td><p>QCOW2</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>URL. The secure HTTP or HTTPS URL that can be used to
+access your disk. The type of file at the URL must match the value
+chosen in Format. For example, if Format is VHD, the URL might
+look like the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">http://yourFileServerIP/userdata/myDataDisk.vhd</span></code></p>
+</li>
+<li><p>MD5 checksum. (Optional) Use the hash that you created in step 1.</p></li>
+</ul>
+</li>
+<li><p>Wait until the status of the volume shows that the upload is
+complete. Click Instances - Volumes, find the name you specified in
+step 5, and make sure the status is Uploaded.</p></li>
+</ol>
+</section>
+<section id="attaching-a-volume">
+<h2>Attaching a Volume<a class="headerlink" href="#attaching-a-volume" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#attaching-a-volume'"><span>#</span></a></h2>
+<p>You can attach a volume to a Guest Instance to provide extra disk storage.
+Attach a volume when you first create a new volume, when you are moving
+an existing volume from one Instance to another, or after you have migrated a
+volume from one storage pool to another.</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as a user or admin.</p></li>
+<li><p>In the left navigation, click Storage.</p></li>
+<li><p>In Select View, choose Volumes.</p></li>
+<li><p>Click the volume name in the Volumes list, then click the Attach Disk
+button <img alt="Attach Disk Button." src="../_images/attach-disk-icon.png"/></p></li>
+<li><p>In the Instance popup, choose the Instance to which you want to attach the
+volume. You will only see Instances to which you are allowed to
+attach volumes; for example, a user will see only Instances created
+by that user, but the administrator will have more choices.</p></li>
+<li><p>When the volume has been attached, you should be able to see it by
+clicking Instances, the Instance name, and View Volumes.</p></li>
+</ol>
+</section>
+<section id="detaching-and-moving-volumes">
+<h2>Detaching and Moving Volumes<a class="headerlink" href="#detaching-and-moving-volumes" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#detaching-and-moving-volumes'"><span>#</span></a></h2>
+<p>A volume can be detached from a Guest Instance and attached to another guest.
+Both administrators and users can detach volumes from Instances and
+move them to other Instances.</p>
+<p>If the two Instances are in different clusters, and the volume is large, it
+may take several minutes for the volume to be moved to the new Instance.</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as a user or admin.</p></li>
+<li><p>In the left navigation bar, click Storage, and choose Volumes in
+Select View. Alternatively, if you know which Instance the volume is
+attached to, you can click Instances, click the Instance name, and click
+View Volumes.</p></li>
+<li><p>Click the name of the volume you want to detach, then click the
+Detach Disk button. <img alt="Detach Disk Button." src="../_images/detach-disk-icon.png"/></p></li>
+<li><p>To move the volume to another Instance, follow the steps in
+<a class="reference external" href="#attaching-a-volume">“Attaching a Volume”</a>.</p></li>
+</ol>
+</section>
+<section id="resizing-volumes">
+<h2>Resizing Volumes<a class="headerlink" href="#resizing-volumes" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#resizing-volumes'"><span>#</span></a></h2>
+<p>Zergaw CloudStack provides the ability to resize data disks; Volume sizing
+is controlled by using disk offerings. Additionally, using the resizeVolume
+API, a data volume can be moved from a static disk offering to a custom disk
+offering with the size specified.</p>
+<p>Before you try to resize a volume, consider the following:</p>
+<ul class="simple">
+<li><p>The Instances associated with the volume are stopped.</p></li>
+<li><p>The data disks associated with the volume are removed.</p></li>
+</ul>
+<p>To resize a volume:</p>
+<ol class="arabic">
+<li><p>Log in to the UI as a user or admin.</p></li>
+<li><p>In the left navigation bar, click Storage.</p></li>
+<li><p>In Select View, choose Volumes.</p></li>
+<li><p>Select the volume name in the Volumes list, then click the Resize
+Volume button <img alt="button to display the resize volume option." src="../_images/resize-volume-icon.png"/></p></li>
+<li><p>In the Resize Volume pop-up, choose desired characteristics for the
+storage.</p>
+<p><img alt="option to resize a volume." src="../_images/resize-volume.png"/></p>
+<ol class="arabic">
+<li><p>If you select Custom Disk, specify a custom size.</p></li>
+<li><p>Click Shrink OK to confirm that you are reducing the size of a
+volume.</p>
+<p>This parameter protects against inadvertent shrinking of a disk,
+which might lead to the risk of data loss. You must sign off that
+you know what you are doing.</p>
+</li>
+</ol>
+</li>
+<li><p>Click OK.</p></li>
+</ol>
+</section>
+<section id="root-volume-size-defined-via-service-offering">
+<h2>Root Volume size defined via Service Offering<a class="headerlink" href="#root-volume-size-defined-via-service-offering" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#root-volume-size-defined-via-service-offering'"><span>#</span></a></h2>
+<p>If a Service Offering is created with a root disk size, then resizing the Root volume is possible only by resizing the Instances service offering.</p>
+<p>Service offering Root resizing constrains:</p>
+<ol class="arabic simple">
+<li><p>Users cannot deploy Instances with custom root disk size when using such offerings</p></li>
+<li><p>Users cannot resize the Instance root disk size when using such offerings</p></li>
+<li><p>The Root Volume of such Instances can only be resized when changing to another Service Offering with a Root disk size equals or larger than the current one.</p></li>
+<li><p>Users can change the Instance offering to a service offering with a Root size of 0GB (default) and then customize the volume size.</p></li>
+</ol>
+</section>
+<section id="change-disk-offering-for-volume">
+<h2>Change disk offering for volume<a class="headerlink" href="#change-disk-offering-for-volume" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#change-disk-offering-for-volume'"><span>#</span></a></h2>
+<p>There are volume operations like migrate volume and resize volume and both accepts new disk offering to replace the existing disk offering of volume.
+Instead of using these APIs directly, the operation can be performed in the UI using change offering in the details view for the volume.
+Upon changing the disk offering the volume will be resized and/or migrated to the suitable storage pool if required according to the new disk offering.</p>
+<p>To change the disk offering of a volume:</p>
+<ol class="arabic">
+<li><p>Log in to the UI as a user or admin.</p></li>
+<li><p>In the left navigation bar, click Storage.</p></li>
+<li><p>In Select View, choose Volumes.</p></li>
+<li><p>Select the volume name in the Volumes list, then click the Change Offering for Volume button</p></li>
+<li><p>In the Change Offering For Volume pop-up, choose desired disk offering for the
+volume.</p>
+<p><img alt="option to change offering for a volume." src="../_images/change-offering-for-volume.png"/></p>
+<ol class="arabic simple">
+<li><p>If you select Custom Disk, specify a custom size.</p></li>
+<li><p>Enable or Disable “Auto migrate to another storage pool if required” as needed</p></li>
+</ol>
+</li>
+<li><p>Click OK.</p></li>
+</ol>
+</section>
+<section id="reset-instance-to-new-root-disk-on-reboot">
+<h2>Reset Instance to New Root Disk on Reboot<a class="headerlink" href="#reset-instance-to-new-root-disk-on-reboot" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#reset-instance-to-new-root-disk-on-reboot'"><span>#</span></a></h2>
+<p>You can specify that you want to discard the root disk and create a new
+one whenever a given Instance is rebooted. This is useful for secure
+environments that need a fresh start on every boot and for desktops that
+should not retain state. The IP address of the Instance will not change due to
+this operation.</p>
+<p><strong>To enable root disk reset on Instance reboot:</strong></p>
+<p>When creating a new service offering, set the parameter isVolatile to
+True. Instances created from this service offering will have their disks reset
+upon reboot. See <a class="reference external" href="service_offerings.html#creating-a-new-compute-offering">“Creating a New Compute
+Offering”</a>.</p>
+</section>
+<section id="volume-delete-protection">
+<h2>Volume delete protection<a class="headerlink" href="#volume-delete-protection" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#volume-delete-protection'"><span>#</span></a></h2>
+<p>Zergaw CloudStack protects volumes from accidental deletion using a delete protection
+flag, which is false by default. When delete protection is enabled for a volume,
+it cannot be deleted through the UI or API. It can only be deleted after
+removing delete protection from the volume.</p>
+<p>Delete protection can be enabled for a volume via updateVirtualMachine API.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>update<span class="w"> </span>volume<span class="w"> </span><span class="nv">id</span><span class="o">=</span>&lt;volume<span class="w"> </span>id&gt;<span class="w"> </span><span class="nv">deleteprotection</span><span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+</div>
+<p>To remove delete protection, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>update<span class="w"> </span>volume<span class="w"> </span><span class="nv">id</span><span class="o">=</span>&lt;volume<span class="w"> </span>id&gt;<span class="w"> </span><span class="nv">deleteprotection</span><span class="o">=</span><span class="nb">false</span>
+</span></code></pre></div>
+</div>
+<p>To enable/disable delete protection for a volume using the UI, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the navigation menu on the left, click Volumes under Storage.</p></li>
+<li><p>Choose the volume for which you want to enable/disable delete protection.</p></li>
+<li><p>Click on the Edit button <img alt="button to edit the properties of a volume" src="../_images/edit-icon.png"/></p></li>
+<li><p>Toggle the Delete Protection switch to enable or disable delete protection.</p></li>
+<li><p>Click Ok button to save the changes.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The volume delete protection is only considered when the volume is being
+deleted through the UI or via <cite>deleteVolume</cite> or <cite>destroyVolume</cite> API. If the
+domain/project is deleted, the volumes under the domain/project will be
+deleted irrespective of the delete protection status.</p>
+</div>
+</section>
+<section id="volume-deletion-and-garbage-collection">
+<h2>Volume Deletion and Garbage Collection<a class="headerlink" href="#volume-deletion-and-garbage-collection" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#volume-deletion-and-garbage-collection'"><span>#</span></a></h2>
+<p>The deletion of a volume does not delete the Snapshots that have been
+created from the volume.</p>
+<p>When an Instance is destroyed, data disk volumes that are attached to the Instance
+are not deleted unless specified.</p>
+</section>
+<section id="volume-metrics">
+<h2>Volume Metrics<a class="headerlink" href="#volume-metrics" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#volume-metrics'"><span>#</span></a></h2>
+<p>Volume statistics are collected on a regular interval (600 seconds).
+This feature is currently only available for VMware and KVM.
+Volume stats include include bytes/s and IO/s statistics as shown in the
+API output below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="o">[</span>root@mgmt<span class="o">]</span><span class="c1"># cmk list volumesmetrics id=272c3d8b-ef2c-499e-abfb-736b54d3d6b1</span>
+</span><span id="line-2"><span class="o">{</span>
+</span><span id="line-3"><span class="s2">"count"</span>:<span class="w"> </span><span class="m">1</span>,
+</span><span id="line-4"><span class="s2">"volume"</span>:<span class="w"> </span><span class="o">[</span>
+</span><span id="line-5"><span class="w">   </span><span class="o">{</span>
+</span><span id="line-6"><span class="w">      </span>...
+</span><span id="line-7"><span class="w">      </span><span class="s2">"diskiopstotal"</span>:<span class="w"> </span><span class="m">30245</span>,
+</span><span id="line-8"><span class="w">      </span><span class="s2">"diskioread"</span>:<span class="w"> </span><span class="m">22443</span>,
+</span><span id="line-9"><span class="w">      </span><span class="s2">"diskiowrite"</span>:<span class="w"> </span><span class="m">7802</span>,
+</span><span id="line-10"><span class="w">      </span><span class="s2">"diskkbsread"</span>:<span class="w"> </span><span class="m">343124</span>,
+</span><span id="line-11"><span class="w">      </span><span class="s2">"diskkbswrite"</span>:<span class="w"> </span><span class="m">217619</span>,
+</span><span id="line-12"><span class="w">      </span>...
+</span></code></pre></div>
+</div>
+<p>Bytes read/write, as well as the total IO/s, are exposed via UI, as shown in the image below.</p>
+<p><img alt="Volume metrics" src="../_images/volume-metrics.png"/></p>
+<p>These statistics are obtained from the hypervisor directly and they represent
+“current” bytes/s and IO/s values at the time of collection.</p>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="volumeoverview.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Volume Overview
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="volume/volumesnapshot.html">
+        Volume Snapshots
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#creating-a-new-volume'" class="reference internal" href="#creating-a-new-volume">Creating a New Volume</a><ul>
+<li><a :data-current="activeSection === '#to-create-a-new-volume'" class="reference internal" href="#to-create-a-new-volume">To Create a New Volume</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#uploading-an-existing-volume-to-an-instance'" class="reference internal" href="#uploading-an-existing-volume-to-an-instance">Uploading an Existing Volume to an Instance</a></li>
+<li><a :data-current="activeSection === '#attaching-a-volume'" class="reference internal" href="#attaching-a-volume">Attaching a Volume</a></li>
+<li><a :data-current="activeSection === '#detaching-and-moving-volumes'" class="reference internal" href="#detaching-and-moving-volumes">Detaching and Moving Volumes</a></li>
+<li><a :data-current="activeSection === '#resizing-volumes'" class="reference internal" href="#resizing-volumes">Resizing Volumes</a></li>
+<li><a :data-current="activeSection === '#root-volume-size-defined-via-service-offering'" class="reference internal" href="#root-volume-size-defined-via-service-offering">Root Volume size defined via Service Offering</a></li>
+<li><a :data-current="activeSection === '#change-disk-offering-for-volume'" class="reference internal" href="#change-disk-offering-for-volume">Change disk offering for volume</a></li>
+<li><a :data-current="activeSection === '#reset-instance-to-new-root-disk-on-reboot'" class="reference internal" href="#reset-instance-to-new-root-disk-on-reboot">Reset Instance to New Root Disk on Reboot</a></li>
+<li><a :data-current="activeSection === '#volume-delete-protection'" class="reference internal" href="#volume-delete-protection">Volume delete protection</a></li>
+<li><a :data-current="activeSection === '#volume-deletion-and-garbage-collection'" class="reference internal" href="#volume-deletion-and-garbage-collection">Volume Deletion and Garbage Collection</a></li>
+<li><a :data-current="activeSection === '#volume-metrics'" class="reference internal" href="#volume-metrics">Volume Metrics</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2019-2025, Zergaw CloudStack </p>
+</div>
+</div>
+</footer>
+</div><button :class="{'opacity-0 invisible' : !showScrollTop}" @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 p-2 z-10 rounded-sm bg-gray-700 text-xs text-white transition-all duration-1000 hover:bg-gray-950 focus:bg-gray-950" id="scrolltop" x-cloak="">
+<svg aria-hidden="true" class="inline fill-current mb-[2px]" height="14" viewbox="0 96 960 960" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="M450 896V370L202 618l-42-42 320-320 320 320-42 42-248-248v526h-60Z"></path>
+</svg>
+  Back to top
+</button>
+<script src="../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

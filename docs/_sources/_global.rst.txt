@@ -1,0 +1,21 @@
+.. This file contain Variables shared across other .rst files in this project
+
+
+.. _CloudStack Installation Guide: https://docs.cloudstack.zergaw.com/en/latest/installguide/index.html
+.. _CloudStack Administrator's Guide: https://docs.cloudstack.zergaw.com/en/latest/adminguide/index.html
+.. _CloudStack Apidocs: https://cloudstack.zergaw.com/api.html
+
+.. |documentation_home| replace:: https://docs.cloudstack.zergaw.com/
+
+.. Images
+
+
+.. |vpn-icon.png| image:: /_static/images/vpn-icon.png
+.. |sysmanager.png| image:: /_static/images/sysmanager.png
+.. |software-license.png| image:: /_static/images/software-license.png
+.. |change-admin-password.png| image:: /_static/images/change-admin-password.png
+.. |menu_acs_logo| image:: /_static/zcslogo.svg
+
+.. |br| raw:: html
+
+   <br/>

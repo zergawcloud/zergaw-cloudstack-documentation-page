@@ -1,0 +1,17 @@
+|menu_acs_logo|
+
+
+Storage
+=========
+
+.. toctree::
+   :maxdepth: 4
+
+   volumeoverview
+   volumemanagement
+   volume/volumesnapshot
+   objectstorageoverview
+   objectstoragemanagement
+   sharedfilesystemoverview
+   sharedfilesystemmanagement
+   

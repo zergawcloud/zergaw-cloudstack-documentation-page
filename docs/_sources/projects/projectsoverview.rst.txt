@@ -1,0 +1,68 @@
+Overview of Projects
+--------------------
+
+Projects are used to organize people and resources. Users
+within a single domain can group themselves into project teams so they
+can collaborate and share virtual resources such as Instances, Snapshots,
+Templates, data disks, and IP addresses.
+
+Once you have created a project, you become that project’s administrator, and
+you can add others within your domain to the project. Zergaw CloudStack can be
+set up to add more people directly to a project. Project members can view
+and manage all virtual resources created by anyone in the project
+(for example, share Instances). A User can be a member of any number of projects
+and can switch views in the CloudStack UI to show only project-related information,
+such as project Instances, fellow project members, project-related alerts, and so on.
+
+It is possible for a project to have
+multiple project administrators and to add specific Users of
+an Account to a project in addition to adding Accounts. By means of
+Project Roles associated with a User or an Account of the project,
+it is possible to restrict access of Users in a project, i.e., in
+addition to Account-level roles, one can further restrict access to
+operations (or APIs) by associating a project-level role to the
+User or Account. However, if an Account has already been added, one will not
+be able to associate a role to a specific User of that Account.
+
+**NOTE:** Project Roles work over Account level Roles. If a User/Account is
+added to a project without a project role, it would imply that the
+User / Account added will have access to all APIs that are made available
+by the Account level role. If there are no specific deny rules in the
+project role, it would again fallback onto the Account-level role to decide
+whether the User has permissions to perform a specific action. It is also to be
+noted that Project roles are restrictive in nature, i.e., to say that, one may
+not allow a User to perform an operation that is NOT allowed at the Account level.
+Even if a rule is added at the project level, allowing such an action, it will not
+have any effect as the action will be prohibited by the Account Role.
+
+
+The project administrator can promote or demote a User in the project.
+The project administrator can also add more members, remove members
+from the project, set new resource limits (as long as they are
+below the global defaults set by the CloudStack administrator), and
+delete the project. When the administrator removes a member from the
+project, resources created by that User, such as Instances, remain
+with the project. This brings us to the subject of resource ownership
+and which resources can be used by a project.
+
+Resources created within a project are owned by the project, not by any
+particular Account, and they can be used only within the
+project. A User who belongs to one or more projects can still create
+resources outside of those projects, and those resources belong to the
+User’s Account; they will not be counted against the project’s usage or
+resource limits. You can create project-level networks to isolate
+traffic within the project and provide network services such as port
+forwarding, load balancing, VPN, and static NAT. A project can also make
+use of certain types of resources from outside the project, if those
+resources are shared. For example, a shared network or public Template
+is available to any project in the domain. A project can get access to a
+private Template if the Template’s owner will grant permission. A
+project can use any service offering or disk offering available in its
+domain; however, you can not create private service and disk offerings
+at the project level.
+
+
+
+.. |Edits Parameters| image:: /_static/images/edit-icon.png
+.. |Searches projects| image:: /_static/images/search-button.png
+

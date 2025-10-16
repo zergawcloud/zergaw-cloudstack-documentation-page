@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Instance AutoScaling | Zergaw CloudStack</title>
+<meta content="Instance AutoScaling | Zergaw CloudStack" property="og:title"/>
+<meta content="Instance AutoScaling | Zergaw CloudStack" name="twitter:title"/>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css?v=82226792" rel="stylesheet" type="text/css"/>
+<link href="https://zergawcloud.github.io/zergaw-cloudstack-doc/instances/virtual_machines/instanceautoscale.html" rel="canonical"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../kubernetesoverview.html" rel="next" title="Overview of Kubernetes"/>
+<link href="instanceuserdata.html" rel="prev" title="Instance User-Data"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" @scroll.window="showScrollTop = pageYOffset &gt; 100" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="24" src="../../_static/zergaw-dark.png" width="24"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="24" src="../../_static/zergaw-light.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a><nav class="flex items-center space-x-6 text-sm font-medium">
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://cloudstack.zergaw.com" rel="noopener nofollow">Portal</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../index.html">Doc</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../faq/index.html">FAQ</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../howto/index.html">How to's</a>
+</nav></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="16" src="../../_static/zergaw-dark.png" width="16"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="16" src="../../_static/zergaw-light.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="flex md:hidden flex-col font-medium mt-4">
+<a href="https://cloudstack.zergaw.com" rel="nofollow noopener">Portal</a>
+<a href="../../index.html">Doc</a>
+<a href="../../faq/index.html">FAQ</a>
+<a href="../../howto/index.html">How to's</a>
+</nav><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/onboarding.html">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/ui.html">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/quickstart.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/concepts.html">Terminologies</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetwork.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/firewall.html">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/nat.html">IP Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/publicip.html">Public IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpn.html">VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancemanagement.html">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instanceuserdata.html">Instance User-Data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumemanagement.html">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../index.html">
+<span class="hidden md:inline">Zergaw CloudStack</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../index.html">Compute</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Instance AutoScaling</span>
+</nav>
+<div id="content" role="main">
+<section id="instance-autoscaling">
+<h1>Instance AutoScaling<a class="headerlink" href="#instance-autoscaling" title="Link to this heading"><span>#</span></a></h1>
+<section id="what-is-autoscaling">
+<h2>What is AutoScaling?<a class="headerlink" href="#what-is-autoscaling" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#what-is-autoscaling'"><span>#</span></a></h2>
+<p>AutoScaling allows you to scale your back-end services or application Instances up
+or down seamlessly and automatically according to the conditions you define.
+With AutoScaling enabled, you can ensure that the number of Instances you are using
+seamlessly scale up when demand increases, and automatically decreases when
+demand subsides. Thus it helps you save compute costs by terminating underused
+Instances automatically and launching new ones when you need them, without the need
+for manual intervention.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#prerequisites'"><span>#</span></a></h2>
+<p>Before you configure an AutoScale rule, consider the following:</p>
+<ul class="simple">
+<li><p>Ensure that the necessary Template is prepared before configuring AutoScale.
+Firstly you must install the PV-driver or virtio driver, which helps CloudStack
+collects performance parameters (CPU and memory) into Instances. Besides, when an Instance is
+deployed by using a Template and when it comes up, the application should be
+up and running.</p></li>
+<li><p>Create an Isolated Network using a Network offering which supports Instance AutoScaling,
+acquire a new IP address (it will be used as Source NAT of the Network) and create
+a load balancer rule without any Instance.</p></li>
+</ul>
+</section>
+<section id="adding-an-autoscale-instance-group">
+<h2>Adding an AutoScale Instance Group<a class="headerlink" href="#adding-an-autoscale-instance-group" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#adding-an-autoscale-instance-group'"><span>#</span></a></h2>
+<ol class="arabic simple">
+<li><p>Log in to the Zergaw CloudStack UI as an administrator or end user.</p></li>
+<li><p>In the left navigation, choose Compute -&gt; AutoScale Instance Groups.</p></li>
+<li><p>Click the New AutoScale Instance Group button.</p></li>
+</ol>
+<p>Specify the following:</p>
+<ul>
+<li><p>Zone: A zone where the Instances will be deployed to.</p></li>
+<li><p>Template: A Template consists of a base OS image and application. A
+Template is used to provision the new Instance of an application on a
+scaleup action. When an Instance is deployed from a Template, it can start
+taking the traffic from the load balancer without any admin intervention.
+For example, if the Instance is deployed for a Web service, it should have the
+Web server running, the database connected, and so on.</p></li>
+<li><p>Compute offering: A predefined set of virtual hardware attributes,
+including CPU speed, number of CPUs, and RAM size, that the user can select
+when creating a new Instance. Choose one of the compute offerings to be used
+while provisioning an Instance as part of the scaleup action.</p></li>
+<li><p>Data disk: An extra disk attached to each Instance in the Instance group.(optional)</p></li>
+<li><p>Networks: The Networks of the Instances. If there are multiple networks
+checked, the network of the load balancer rule will be the default Network
+of the Instances.</p></li>
+<li><p>Load balancing rule: When an Instance is created, it will be automatically
+assigned to the load balancing rule. When an Instance is expunged, it
+will be removed from the load balancing rule.</p></li>
+<li><p>ScaleUp policies: The policies for ScaleUp action. When all of the conditions
+in one of the ScaleUp policies are met, CloudStack will create an Instance
+if the number of Instances do not exceed Max Instance.</p></li>
+<li><p>ScaleDown policies: The policies for ScaleDown action. When all of the
+conditions in one of the ScaleDown policies are met, CloudStack will expunge
+an Instance in the group if the number of Instances is larger than Min Instance.</p></li>
+<li><p>Name: The name of the Instance group. The name of the new Instances will use the
+name of the Instance group as prefix.</p></li>
+<li><p>Min Instance: The minimum number of active Instances that is assigned to
+a load balancing rule. The active Instances are the application
+Instances that are up and serving the traffic, and are being load balanced.
+This parameter ensures that a load balancing rule has at least the
+configured number of active Instances are available to serve the traffic.</p></li>
+<li><p>Max Instance: Maximum number of active Instances that should be assigned
+to a load balancing rule. This parameter defines the upper limit of active
+Instances that can be assigned to a load balancing rule.</p>
+<p>Specifying a large value for the Maximum Instance parameter might result in
+provisioning large number of Instances, which in turn leads to a single
+load balancing rule exhausting the Instances limit specified at the
+account or domain level.</p>
+</li>
+<li><p>Polling interval: Frequency in which the conditions, combination of counter,
+operator and threshold, are to be evaluated before taking a scale up or
+down action. The default polling interval is 30 seconds.</p></li>
+<li><p>Expunge Instance Grace Period: The duration in seconds, after a scaledown action
+is initiated, to wait before the Instance is expunged as part of scaledown
+action. This is to ensure graceful close of any pending sessions or
+transactions being served by the Instance marked for expunge. The default is 120
+seconds.</p></li>
+<li><p>Create: Click Create to create the AutoScale Instance group.</p>
+<p>Additionally, if you want to configure the advanced settings, click Show
+advanced settings, and specify the following:</p>
+</li>
+<li><p>SSH key pairs: The SSH Keys of the Instances.</p>
+<p>For more information, see <a class="reference external" href="virtual_machines.html#using-ssh-keys-for-authentication">“Using SSH Keys for Authentication”</a>.</p>
+</li>
+<li><p>Affinity groups: The affinity groups of the Instances.</p>
+<p>For more information, see <a class="reference external" href="virtual_machines.html#affinity-groups">“Affinity Groups”</a>.</p>
+</li>
+<li><p>Userdata: The userdata of the Instances.</p>
+<p>For more information, see <a class="reference external" href="virtual_machines.html#user-data-and-meta-data">“User-Data and Meta-Data”</a>.</p>
+</li>
+</ul>
+</section>
+<section id="autoscale-policies">
+<h2>AutoScale Policies<a class="headerlink" href="#autoscale-policies" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#autoscale-policies'"><span>#</span></a></h2>
+<p>An AutoScale Instance Group must have one or more scale-up policies, and one or more
+scale-down policies.</p>
+<p>Each AutoScale Policy has the following parameters:</p>
+<ul class="simple">
+<li><p>Duration: The duration, in seconds, for which the conditions you specify
+must be true to trigger a scale action. The conditions defined should
+hold true for the entire duration you specify for an AutoScale action to be
+invoked.</p></li>
+<li><p>Quiet Time: This is the cool down period after an AutoScale action is
+initiated. The time includes the time taken to complete provisioning an
+Instance from its Template and the time taken by an application to be ready
+to serve traffic. This quiet time allows the fleet to come up to a stable
+state before any action can take place. The default is 300 seconds.</p></li>
+<li><p>Action: The scale action. The options are ScaleUp and ScaleDown.</p></li>
+<li><p>Conditions: A policy must contain at least one condition.</p></li>
+</ul>
+<p>Each condition in AutoScale policies has the following parameters:</p>
+<ul>
+<li><p>Counter: The performance counters expose the state of the monitored
+Instances. We added five new counters to work with that feature:</p>
+<ul class="simple">
+<li><p>Instance CPU - average percentage</p></li>
+<li><p>Instance Memory - average percentage</p></li>
+<li><p>Public Network - mbps received per Instance</p></li>
+<li><p>Public Network - mbps transmit per Instance</p></li>
+<li><p>Load Balancer - average connections per Instance</p></li>
+</ul>
+<p>Remember to choose one of them. If you choose anything else, the
+autoscaling will not work.</p>
+</li>
+<li><p>Operator: The following five relational operators are supported in
+AutoScale feature: Greater than, Less than, Less than or equal to, Greater
+than or equal to, and Equal to.</p></li>
+<li><p>Threshold: Threshold value to be used for the counter. Once the counter
+defined above breaches the threshold value, the AutoScale feature initiates
+a scaleup or scaledown action.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The counter “Instance Memory - average percentage” calculates the average memory usage
+of available Instances (in Starting, Stopping, Running, Migrating states) in the
+AutoScale Instance Group. On KVM/XenServer, the Instance memory usage is calculated by</p>
+<blockquote>
+<div><p>Instance memory usage percentage = (total memory - free memory) * 100 / total memory</p>
+</div></blockquote>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The counters “Public Network - mbps received per Instance” and
+“Public Network - mbps transmit per Instance” consider all public
+traffic through the VR public interface, including the traffic from/to other
+Instances which are not in the AutoScale Instance group.</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="disabling-and-enabling-an-autoscale-instance-group">
+<h2>Disabling and Enabling an AutoScale Instance Group<a class="headerlink" href="#disabling-and-enabling-an-autoscale-instance-group" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#disabling-and-enabling-an-autoscale-instance-group'"><span>#</span></a></h2>
+<p>You can view the detail of the AutoScale Instance Group.</p>
+<ol class="arabic simple">
+<li><p>Log in to the Zergaw CloudStack UI as an administrator or end user.</p></li>
+<li><p>In the left navigation, choose Compute -&gt; AutoScale Instance Groups.</p></li>
+<li><p>Select the AutoScale Instance Group you want to work with.</p></li>
+</ol>
+<p><img alt="AutoScale Instance Group details." src="../../_images/autoscale-vmgroup-details.png"/></p>
+<p>If you want to perform any maintenance operation on the AutoScale Instances,
+disable the AutoScale Instance Group. When the AutoScale Instance Group is
+disabled, no scaleup or scaledown action is performed. You can use this
+downtime for the maintenance activities. To disable the AutoScale Instance Group,
+click the Disable AutoScale Instance Group button.</p>
+<p>The button toggles between enable and disable, depending on whether AutoScale
+is currently enabled or not. After the maintenance operations are done, you
+can enable the AutoScale Instance Group back. To enable the AutoScale Instance Group, click
+the Enable AutoScale Instance Group button.</p>
+</section>
+<section id="updating-an-autoscale-instance-group">
+<h2>Updating an AutoScale Instance Group<a class="headerlink" href="#updating-an-autoscale-instance-group" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#updating-an-autoscale-instance-group'"><span>#</span></a></h2>
+<p>You can update the various parameters of Instance profile, and add or delete the
+conditions in a scaleup or scaledown policy. Before you update an AutoScale Instance
+Group, ensure that you disable it first by clicking the Disable AutoScale button.</p>
+<p>To update the AutoScale Instance Group, click the Update AutoScale Instance Group button.</p>
+<p><img alt="Update AutoScale Instance Group." src="../../_images/autoscale-vmgroup-update.png"/></p>
+<section id="updating-autoscale-instance-profile">
+<h3>Updating AutoScale Instance Profile<a class="headerlink" href="#updating-autoscale-instance-profile" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#updating-autoscale-instance-profile'"><span>#</span></a></h3>
+<p>To update the Instance Profile of the AutoScale Instance Group, click the AutoScale Instance Profile
+tab, You will see the details of AutoScale Instance Profile.</p>
+<p><img alt="AutoScale Instance Profile." src="../../_images/autoscale-vmgroup-profile.png"/></p>
+<p>then click Edit AutoScale Instance Profile button.</p>
+<p><img alt="Update AutoScale Instance Profile." src="../../_images/autoscale-vmgroup-profile-update.png"/></p>
+<p>You are able to reset userdata of the Instance, by clicking Reset Userdata on AutoScale Instance Group button.</p>
+<p><img alt="Reset Userdata in AutoScale Instance Profile." src="../../_images/autoscale-vmgroup-profile-reset-userdata.png"/></p>
+<p>You are also able to update the deploy parameters of the Instances.</p>
+<p><img alt="AutoScale Instance deploy parameters." src="../../_images/autoscale-vmgroup-deploy-parameters.png"/></p>
+<p>The following parameters are supported.</p>
+<ul class="simple">
+<li><p>affinitygroupids: The UUID of the affinity groups, separated by a single
+comma character (,).</p></li>
+<li><p>diskofferingid: The UUID of the data disk.</p></li>
+<li><p>disksize: The size of data disk. This is valid only if the disk offering
+is dynamic.</p></li>
+<li><p>keypairs: The name of the SSH Key pairs, separated by a single comma
+character (,).</p></li>
+<li><p>networkids: The UUID of the Instance networks, separated by a single comma
+character (,).</p></li>
+<li><p>overridediskofferingid: The UUID of override disk offering for ROOT disk.</p></li>
+<li><p>rootdisksize: The size of the ROOT disk. This overrides the size of the Instance Template.</p></li>
+<li><p>securitygroupids: The UUID of security groups, separated by a single comma
+character (,). This is valid only if the network provider is Netscaler.</p></li>
+</ul>
+</section>
+<section id="adding-an-autoscale-policy">
+<h3>Adding an AutoScale policy<a class="headerlink" href="#adding-an-autoscale-policy" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#adding-an-autoscale-policy'"><span>#</span></a></h3>
+<p>To add a new Scale policy to the AutoScale Instance Group, click the ScaleUp policy
+or ScaleDown policy tab, then click “Add policy”.</p>
+<p><img alt="Add new AutoScale Policy." src="../../_images/autoscale-vmgroup-policy-new.png"/></p>
+<blockquote>
+<div><p>For more information, see <a class="reference external" href="autoscale_with_virtual_router.html#autoscale-policies">“AutoScale policies”</a>.</p>
+</div></blockquote>
+</section>
+<section id="updating-autoscale-policies">
+<h3>Updating AutoScale policies<a class="headerlink" href="#updating-autoscale-policies" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#updating-autoscale-policies'"><span>#</span></a></h3>
+<p>To update the AutoScale policies of the AutoScale Instance Group, click the ScaleUp policy
+or ScaleDown policy tab.</p>
+<p><img alt="AutoScale Policies." src="../../_images/autoscale-vmgroup-policy.png"/></p>
+<p>To update an existing AutoScale policies, select a policy, input the new value
+of Duration or Quiet time, then click Edit button.</p>
+<p>To add a new condition to the policy, choose Counter and Operator and input the value,
+click Add condition.</p>
+<p>To remove an existing condition from the policy, click Delete button of the condition.</p>
+<p>To update a condition in the policy, click Edit button, choose Operator and input the
+value, click OK button.</p>
+</section>
+<section id="removing-an-autoscale-policy">
+<h3>Removing an AutoScale policy<a class="headerlink" href="#removing-an-autoscale-policy" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#removing-an-autoscale-policy'"><span>#</span></a></h3>
+<p>To remove an existing AutoScale policies, select a policy, click “Remove policy” button.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To apply the new AutoScale Instance Profile and AutoScale policies, open the AutoScale Instance
+Group details, then click the Enable AutoScale Instance Group button.</p>
+</div>
+</section>
+</section>
+<section id="deleting-an-autoscale-instance-group">
+<h2>Deleting an AutoScale Instance Group<a class="headerlink" href="#deleting-an-autoscale-instance-group" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#deleting-an-autoscale-instance-group'"><span>#</span></a></h2>
+<p>To remove an AutoScale Instance Group, click “Delete AutoScale Instance Group” button.</p>
+<p><img alt="Delete AutoScale Instance Group." src="../../_images/autoscale-vmgroup-delete.png"/></p>
+<p>AutoScale Instance Group can be removed only if there are no Instances in the group.</p>
+<p>To force-delete the AutoScale Instance Group, check the cleanup checkbox, then click OK button.
+All the Instances in the group will be expunged.</p>
+</section>
+<section id="runtime-considerations">
+<h2>Runtime Considerations<a class="headerlink" href="#runtime-considerations" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#runtime-considerations'"><span>#</span></a></h2>
+<p>An administrator should not assign an Instance to a load balancing rule which is
+configured for AutoScale.</p>
+<p>Making API calls outside the context of AutoScale, such as destroyVM, on an
+autoscaled Instance leaves the load balancing configuration in an inconsistent state.
+Even though the Instance is destroyed from the load balancer rule, it continues to be shown as
+a service assigned to a rule inside the context of AutoScale.</p>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="instanceuserdata.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Instance User-Data
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../kubernetesoverview.html">
+        Overview of Kubernetes
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#what-is-autoscaling'" class="reference internal" href="#what-is-autoscaling">What is AutoScaling?</a></li>
+<li><a :data-current="activeSection === '#prerequisites'" class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a :data-current="activeSection === '#adding-an-autoscale-instance-group'" class="reference internal" href="#adding-an-autoscale-instance-group">Adding an AutoScale Instance Group</a></li>
+<li><a :data-current="activeSection === '#autoscale-policies'" class="reference internal" href="#autoscale-policies">AutoScale Policies</a></li>
+<li><a :data-current="activeSection === '#disabling-and-enabling-an-autoscale-instance-group'" class="reference internal" href="#disabling-and-enabling-an-autoscale-instance-group">Disabling and Enabling an AutoScale Instance Group</a></li>
+<li><a :data-current="activeSection === '#updating-an-autoscale-instance-group'" class="reference internal" href="#updating-an-autoscale-instance-group">Updating an AutoScale Instance Group</a><ul>
+<li><a :data-current="activeSection === '#updating-autoscale-instance-profile'" class="reference internal" href="#updating-autoscale-instance-profile">Updating AutoScale Instance Profile</a></li>
+<li><a :data-current="activeSection === '#adding-an-autoscale-policy'" class="reference internal" href="#adding-an-autoscale-policy">Adding an AutoScale policy</a></li>
+<li><a :data-current="activeSection === '#updating-autoscale-policies'" class="reference internal" href="#updating-autoscale-policies">Updating AutoScale policies</a></li>
+<li><a :data-current="activeSection === '#removing-an-autoscale-policy'" class="reference internal" href="#removing-an-autoscale-policy">Removing an AutoScale policy</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#deleting-an-autoscale-instance-group'" class="reference internal" href="#deleting-an-autoscale-instance-group">Deleting an AutoScale Instance Group</a></li>
+<li><a :data-current="activeSection === '#runtime-considerations'" class="reference internal" href="#runtime-considerations">Runtime Considerations</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2019-2025, Zergaw CloudStack </p>
+</div>
+</div>
+</footer>
+</div><button :class="{'opacity-0 invisible' : !showScrollTop}" @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 p-2 z-10 rounded-sm bg-gray-700 text-xs text-white transition-all duration-1000 hover:bg-gray-950 focus:bg-gray-950" id="scrolltop" x-cloak="">
+<svg aria-hidden="true" class="inline fill-current mb-[2px]" height="14" viewbox="0 96 960 960" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="M450 896V370L202 618l-42-42 320-320 320 320-42 42-248-248v526h-60Z"></path>
+</svg>
+  Back to top
+</button>
+<script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../../_static/doctools.js?v=9bcbadda"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

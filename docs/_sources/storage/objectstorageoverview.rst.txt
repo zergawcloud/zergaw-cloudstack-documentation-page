@@ -1,0 +1,6 @@
+Object Storage
+---------------
+
+This section gives technical details about Zergaw CloudStack
+object storage. For more information about the concepts behind object storage
+see :ref:`about-object-storage` .

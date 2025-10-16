@@ -1,0 +1,13 @@
+Isolated Networks
+~~~~~~~~~~~~~~~~~
+
+An isolated network can be accessed only by Instances of a single
+account. Isolated networks have the following properties.
+
+-  Resources such as VLAN are allocated and garbage collected
+   dynamically
+
+-  There is one network offering for the entire network
+
+-  The network offering can be upgraded or downgraded but it is for the
+   entire network

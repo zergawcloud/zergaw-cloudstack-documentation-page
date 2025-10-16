@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Instance User-Data | Zergaw CloudStack</title>
+<meta content="Instance User-Data | Zergaw CloudStack" property="og:title"/>
+<meta content="Instance User-Data | Zergaw CloudStack" name="twitter:title"/>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css?v=82226792" rel="stylesheet" type="text/css"/>
+<link href="https://zergawcloud.github.io/zergaw-cloudstack-doc/instances/virtual_machines/instanceuserdata.html" rel="canonical"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="instanceautoscale.html" rel="next" title="Instance AutoScaling"/>
+<link href="instancesshkey.html" rel="prev" title="Instance SSH Keys"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" @scroll.window="showScrollTop = pageYOffset &gt; 100" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="24" src="../../_static/zergaw-dark.png" width="24"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="24" src="../../_static/zergaw-light.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a><nav class="flex items-center space-x-6 text-sm font-medium">
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://cloudstack.zergaw.com" rel="noopener nofollow">Portal</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../index.html">Doc</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../faq/index.html">FAQ</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../howto/index.html">How to's</a>
+</nav></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="16" src="../../_static/zergaw-dark.png" width="16"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="16" src="../../_static/zergaw-light.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="flex md:hidden flex-col font-medium mt-4">
+<a href="https://cloudstack.zergaw.com" rel="nofollow noopener">Portal</a>
+<a href="../../index.html">Doc</a>
+<a href="../../faq/index.html">FAQ</a>
+<a href="../../howto/index.html">How to's</a>
+</nav><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/onboarding.html">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/ui.html">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/quickstart.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/concepts.html">Terminologies</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetwork.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/firewall.html">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/nat.html">IP Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/publicip.html">Public IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpn.html">VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancemanagement.html">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Instance User-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instanceautoscale.html">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumemanagement.html">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../index.html">
+<span class="hidden md:inline">Zergaw CloudStack</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../index.html">Compute</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Instance User-Data</span>
+</nav>
+<div id="content" role="main">
+<section id="instance-user-data">
+<h1>Instance User-Data<a class="headerlink" href="#instance-user-data" title="Link to this heading"><span>#</span></a></h1>
+<p>Users can register userdata in Zergaw CloudStack and refer the registered userdata while
+deploying or editing or reset userdata on an instance. The userdata content can also be
+directly provided while deploying the instance. Userdata content length can be up to 32kb.</p>
+<section id="register-userdata">
+<h2>Register Userdata<a class="headerlink" href="#register-userdata" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#register-userdata'"><span>#</span></a></h2>
+<p>To register a new userdata:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI.</p></li>
+<li><p>In the left navigation bar, click Compute and then User Data.</p></li>
+<li><p>Click Register a userdata.</p></li>
+<li><p>In the dialog, make the following choices:</p>
+<ul class="simple">
+<li><p><strong>Name</strong>: Any desired name for the userdata.</p></li>
+<li><p><strong>Userdata</strong>: Plain userdata content. The UI does base64 encoding.</p></li>
+<li><p><strong>Userdata parameters</strong>: Comma separated list of variables which (if any) declared
+in userdata content.</p></li>
+<li><p><strong>Domain</strong>: An optional domain for the userdata.</p></li>
+<li><p><strong>Account</strong>: An optional account for the userdata.</p></li>
+</ul>
+</li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/register_userdata.png"><img alt="Register userdata dialog box" class="align-center" src="../../_images/register_userdata.png" style="width: 400px;"/></a>
+<p>If userdata content has variables declared in it, user can register the Userdata
+with userdata parameters.</p>
+<p>For example, if userdata content is like below having a custom variable “variable1”</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1">## template: jinja</span>
+</span><span id="line-2"><span class="c1">#cloud-config</span>
+</span><span id="line-3">runcmd:
+</span><span id="line-4"><span class="w">   </span>-<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'TestVariable {{ ds.meta_data.variable1 }}'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/variable
+</span><span id="line-5"><span class="w">   </span>-<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'Hostname {{ ds.meta_data.public_hostname }}'</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/hostname
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>Userdata has to be registered with userdata parameter “variable1” like below</p>
+<a class="reference internal image-reference" href="../../_images/register_userdata_with_variables.png"><img alt="Register userdata with variables dialog box" class="align-center" src="../../_images/register_userdata_with_variables.png" style="width: 400px;"/></a>
+<p>If the variables in userdata content are of a predefined metadata like “public_hostname”
+or “instance_id”, then userdata parameters should not declare these variables. That is
+the reason in the above example “public_hostname” is not declared.</p>
+<p>There are three APIs that can be used to provide user-data to instance:
+deployVirtualMachine, updateVirtualMachine and resetUserDataForVirtualMachine.
+These APIs accepts parameters <code class="docutils literal notranslate"><span class="pre">userdataid</span></code> and <code class="docutils literal notranslate"><span class="pre">userdatadetails</span></code>.
+userdatadetails is to specify the custom values for the variables which are declared
+in userdata in a key value parameter map details.</p>
+<a class="reference internal image-reference" href="../../_images/deployvm_userdata.png"><img alt="Provide userdata id or userdata text dialog box" class="align-center" src="../../_images/deployvm_userdata.png" style="width: 400px;"/></a>
+<p>If the userdata contains variables that are declared during registration then those values
+has to be specified like below,</p>
+<a class="reference internal image-reference" href="../../_images/deployvm_userdata_with_variables.png"><img alt="Provide userdata id or userdata with variables text dialog box" class="align-center" src="../../_images/deployvm_userdata_with_variables.png" style="width: 400px;"/></a>
+<p>These details will be saved as meta-data file(s) in both config drive and virtual router,
+which in turn support jinja based instance meta-data feature of cloud-init,
+refer to <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/instancedata.html">https://cloudinit.readthedocs.io/en/latest/topics/instancedata.html</a>.</p>
+<p>These APIs also support the parameter <code class="docutils literal notranslate"><span class="pre">userdata=</span></code> to provide the userdata content
+directly. The value for this parameter must be a <a class="reference external" href="https://www.base64encode.org/">base64</a>-encoded
+multi-part MIME message. See further below for an example of what this should look like.</p>
+<p>The registered UserData can be linked to a Template or ISO on registration/upload/editing
+using linkUserDataToTemplate API. The same API can be used to unlink the mapping of userdata and Template.</p>
+<p>While linking userData to a Template/ISO userdata override policy has to be specified.
+Following are the override policies available:</p>
+<dl class="simple">
+<dt>Allow Override: Allow users to override UserData for the Template during instance deployment or on reset.</dt><dd><p>This is the default override policy if not specified</p>
+</dd>
+</dl>
+<p>Deny Override: Override of UserData isn’t allowed during instance deployment or on reset.</p>
+<dl class="simple">
+<dt>Append Only: Don’t allow users to override linked UserData but allow users to pass userdata content</dt><dd><p>or ID that should be appended to the linked UserData of the Template. When the users pass userdata it is appended to the Template userdata in the form of a multipart MIME message</p>
+</dd>
+</dl>
+<p>This is how it looks like in Template/ISO register/upload/edit forms.</p>
+<a class="reference internal image-reference" href="../../_images/userdata_template_link.png"><img alt="Linking userdata to template/ISO" class="align-center" src="../../_images/userdata_template_link.png" style="width: 400px;"/></a>
+<p>Based on these override policies, “Add Instance” UI form provides relevant options to either
+override or append. If it is “Deny Override” then “Add Instance” will not allow adding user specific userdata</p>
+</section>
+<section id="storing-and-accessing-userdata">
+<h2>Storing and accessing userdata<a class="headerlink" href="#storing-and-accessing-userdata" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#storing-and-accessing-userdata'"><span>#</span></a></h2>
+<p>HTTP GET parameters are limited to a length of 2048 bytes, but it is possible
+to store larger user-data blobs by sending them in the body via HTTP POST
+instead of GET.</p>
+<p>From inside the instance, the user-data is accessible via the virtual router,
+if the UserData service is enabled on the network offering.</p>
+<p>If you are using the DNS service of the virtual router, a special hostname
+called <cite>data-server.</cite> is provided, that will point to a valid user-data server.</p>
+<p>Otherwise you have to determine the virtual router address via other means,
+such as DHCP leases. Be careful to scan all routers if you have multiple
+networks attached to an instance, in case not all of them have the UserData service
+enabled.</p>
+<p>User-data is available from the URL <code class="docutils literal notranslate"><span class="pre">http://data-server./latest/user-data</span></code>
+and can be fetched via curl or other HTTP client.</p>
+<p>It is also possible to fetch instance metadata from the same service, via the URL
+<code class="docutils literal notranslate"><span class="pre">http://data-server./latest/{metadata</span> <span class="pre">type}</span></code>.  For backwards compatibility,
+the previous URL <code class="docutils literal notranslate"><span class="pre">http://data-server./latest/{metadata</span> <span class="pre">type}</span></code> is also supported.</p>
+<p>For metadata type, use one of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">service-offering</span></code>. A description of the instances service offering</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">availability-zone</span></code>. The Zone name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local-ipv4</span></code>. The guest IP of the instance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local-hostname</span></code>. The hostname of the instance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public-ipv4</span></code>. The first public IP for the router.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public-hostname</span></code>. This is the same as public-ipv4</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">instance-id</span></code>. The instance name of the instance</p></li>
+</ul>
+</section>
+<section id="resetting-userdata">
+<h2>Resetting UserData<a class="headerlink" href="#resetting-userdata" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#resetting-userdata'"><span>#</span></a></h2>
+<ol class="arabic">
+<li><p>Log in to the UI.</p></li>
+<li><p>In the left navigation bar, click Compute –&gt; Instances.</p></li>
+<li><p>Choose the Instance to reset userdata.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Instance must be in a stopped state.</p>
+</div>
+</li>
+<li><p>Click on Reset Userdata button on the Instance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the instance already has userdata applied to it, an extra dialog box will appear.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Disabled</span></code> (Default) - This will reset the userdata using the already configured values.  Skip the next step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Enabled</span></code> - Choose this to override the already configured values.  Continue to next step.</p></li>
+</ul>
+</div>
+</li>
+<li><p>In the dialog box, choose one of the following:</p>
+<ul>
+<li><p>Stored Userdata: Choose another userdata entry.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Stored Userdata is created under Instances –&gt; User Data</p>
+</div>
+</div></blockquote>
+</li>
+<li><p>Manual Userdata Entry: Manually provide userdata for this Instance</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This can also be performed via API: <code class="docutils literal notranslate"><span class="pre">resetUserDataForVirtualMachine</span></code>: Resets the UserData for virtual machine.</p>
+</div>
+<section id="determining-the-virtual-router-address-without-dns">
+<h3>Determining the virtual router address without DNS<a class="headerlink" href="#determining-the-virtual-router-address-without-dns" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#determining-the-virtual-router-address-without-dns'"><span>#</span></a></h3>
+<p>If can’t or don’t want to use the virtual router’s DNS service, it’s also
+possible to determine the user-data server from a DHCP lease.</p>
+<ol class="arabic">
+<li><p>Run the following command to find the virtual router.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># cat /var/lib/dhcp/dhclient.eth0.leases | grep dhcp-server-identifier | tail -1</span>
+</span></code></pre></div>
+</div>
+</li>
+<li><p>Access the data-server via its IP</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># curl http://10.1.1.1/latest/user-data</span>
+</span></code></pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="fetching-user-data-via-the-api">
+<h3>Fetching user-data via the API<a class="headerlink" href="#fetching-user-data-via-the-api" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fetching-user-data-via-the-api'"><span>#</span></a></h3>
+<p>User-data is not included with the normal instance state for historic reasons.
+To read out the base64-encoded user-data via the API, use the <a class="reference external" href="https://cloudstack.zergaw.com/docs/api/apidocs-4.14/user/getVirtualMachineUserData.html">getVirtualMachineUserData</a>
+API call:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>get<span class="w"> </span>virtualmachineuserdata<span class="w"> </span><span class="nv">virtualmachineid</span><span class="o">=</span>8fd996b6-a102-11ea-ba47-23394b299ae9
+</span></code></pre></div>
+</div>
+</section>
+<section id="using-cloud-init">
+<h3>Using cloud-init<a class="headerlink" href="#using-cloud-init" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#using-cloud-init'"><span>#</span></a></h3>
+<p><a class="reference external" href="https://cloudinit.readthedocs.org/en/latest">cloud-init</a> can be used to access
+and interpret user-data inside Instances. If you install cloud-init into your
+Instance Templates, it will allow you to store SSH keys and user passwords on each new
+Instance deployment automatically (<a class="reference internal" href="../../templateandiso/templates/_password.html#adding-password-management-to-templates"><span class="std std-ref">Adding Password Management to Your Templates</span></a> and <a class="reference external" href="virtual_machines.html#using-ssh-keys-for-authentication">using ssh keys</a>).</p>
+<ol class="arabic">
+<li><p>Install cloud-init package into an Instance Template:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># yum install cloud-init</span>
+</span><span id="line-2"><span class="w">  </span>or
+</span><span id="line-3">$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>cloud-init
+</span></code></pre></div>
+</div>
+</li>
+<li><p>Create a datasource configuration file in the Instance Template: <code class="docutils literal notranslate"><span class="pre">/etc/cloud/cloud.cfg.d/99_cloudstack.cfg</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nt">datasource_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">NoCloud</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">ConfigDrive</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">CloudStack</span><span class="w"> </span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
+</div>
+</li>
+</ol>
+<p>For more information, see <a class="reference external" href="templates/_cloud_init.html#linux-with-cloud-init">Cloud-init integration</a></p>
+</section>
+<section id="custom-user-data-example">
+<h3>Custom user-data example<a class="headerlink" href="#custom-user-data-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#custom-user-data-example'"><span>#</span></a></h3>
+<p>This example uses cloud-init to automatically update all OS packages on the first launch.</p>
+<ol class="arabic">
+<li><p>Register the following user-data in CloudStack. If APIs are used to register userdata or to
+provide direct userdata text then userdata needs to be wrapped into a multi-part MIME message
+and encoded in base64:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">base64<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+</span><span id="line-2"><span class="s">Content-Type: multipart/mixed; boundary="//"</span>
+</span><span id="line-3"><span class="s">MIME-Version: 1.0</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="s">--//</span>
+</span><span id="line-6"><span class="s">Content-Type: text/cloud-config; charset="us-ascii"</span>
+</span><span id="line-7"><span class="s">MIME-Version: 1.0</span>
+</span><span id="line-8"><span class="s">Content-Transfer-Encoding: 7bit</span>
+</span><span id="line-9"><span class="s">Content-Disposition: attachment; filename="cloud-config.txt"</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="s">#cloud-config</span>
+</span><span id="line-12">
+</span><span id="line-13"><span class="s"># Upgrade the instance on first boot</span>
+</span><span id="line-14"><span class="s"># (ie run apt-get upgrade)</span>
+</span><span id="line-15"><span class="s">#</span>
+</span><span id="line-16"><span class="s"># Default: false</span>
+</span><span id="line-17"><span class="s"># Aliases: apt_upgrade</span>
+</span><span id="line-18"><span class="s">package_upgrade: true</span>
+</span><span id="line-19"><span class="s">EOF</span>
+</span></code></pre></div>
+</div>
+</li>
+<li><p>Deploy an instance with this user-data either by providing the UUID of the registered userdata
+or by providing base64 encoded userdata:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>deploy<span class="w"> </span>virtualmachine<span class="w"> </span><span class="nv">name</span><span class="o">=</span>.....<span class="w"> </span><span class="nv">userdata</span><span class="o">=</span><span class="nv">Q29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PSIvLyIKTUlNRS1WZXJzaW9uOiAxLjAKCi0tLy8KQ29udGVudC1UeXBlOiB0ZXh0L2Nsb3VkLWNvbmZpZzsgY2hhcnNldD0idXMtYXNjaWkiCk1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDdiaXQKQ29udGVudC1EaXNwb3NpdGlvbjogYXR0YWNobWVudDsgZmlsZW5hbWU9ImNsb3VkLWNvbmZpZy50eHQiCgojY2xvdWQtY29uZmlnCgojIFVwZ3JhZGUgdGhlIGluc3RhbmNlIG9uIGZpcnN0IGJvb3QKIyAoaWUgcnVuIGFwdC1nZXQgdXBncmFkZSkKIwojIERlZmF1bHQ6IGZhbHNlCiMgQWxpYXNlczogYXB0X3VwZ3JhZGUKcGFja2FnZV91cGdyYWRlOiB0cnVlCg</span><span class="o">==</span>
+</span></code></pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>deploy<span class="w"> </span>virtualmachine<span class="w"> </span><span class="nv">name</span><span class="o">=</span>.....<span class="w"> </span><span class="nv">userdataid</span><span class="o">=</span>&lt;Userdata<span class="w"> </span>UUID&gt;
+</span></code></pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using multipart userdata, cloud-init expects userdata format of one particular type only in one multipart section.</p>
+</div>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="instancesshkey.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Instance SSH Keys
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="instanceautoscale.html">
+        Instance AutoScaling
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#register-userdata'" class="reference internal" href="#register-userdata">Register Userdata</a></li>
+<li><a :data-current="activeSection === '#storing-and-accessing-userdata'" class="reference internal" href="#storing-and-accessing-userdata">Storing and accessing userdata</a></li>
+<li><a :data-current="activeSection === '#resetting-userdata'" class="reference internal" href="#resetting-userdata">Resetting UserData</a><ul>
+<li><a :data-current="activeSection === '#determining-the-virtual-router-address-without-dns'" class="reference internal" href="#determining-the-virtual-router-address-without-dns">Determining the virtual router address without DNS</a></li>
+<li><a :data-current="activeSection === '#fetching-user-data-via-the-api'" class="reference internal" href="#fetching-user-data-via-the-api">Fetching user-data via the API</a></li>
+<li><a :data-current="activeSection === '#using-cloud-init'" class="reference internal" href="#using-cloud-init">Using cloud-init</a></li>
+<li><a :data-current="activeSection === '#custom-user-data-example'" class="reference internal" href="#custom-user-data-example">Custom user-data example</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2019-2025, Zergaw CloudStack </p>
+</div>
+</div>
+</footer>
+</div><button :class="{'opacity-0 invisible' : !showScrollTop}" @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 p-2 z-10 rounded-sm bg-gray-700 text-xs text-white transition-all duration-1000 hover:bg-gray-950 focus:bg-gray-950" id="scrolltop" x-cloak="">
+<svg aria-hidden="true" class="inline fill-current mb-[2px]" height="14" viewbox="0 96 960 960" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="M450 896V370L202 618l-42-42 320-320 320 320-42 42-248-248v526h-60Z"></path>
+</svg>
+  Back to top
+</button>
+<script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../../_static/doctools.js?v=9bcbadda"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

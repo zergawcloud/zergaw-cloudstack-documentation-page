@@ -1,0 +1,16 @@
+Overview of Virtual Networks
+-------------------------------------------
+
+People using cloud infrastructure have a variety of needs and
+preferences when it comes to the networking services provided by the
+cloud.
+
+A virtual network is a logical construct that enables multi-tenancy on a
+single physical network. In Zergaw CloudStack a virtual network is isolated.
+
+When you define a new virtual network, all your settings for that
+network are stored in Zergaw CloudStack. The actual network resources are
+activated only when the first Instance starts in the network.
+When all Instances have left the virtual network, the network
+resources are garbage collected so they can be allocated again. This
+helps to conserve network resources.

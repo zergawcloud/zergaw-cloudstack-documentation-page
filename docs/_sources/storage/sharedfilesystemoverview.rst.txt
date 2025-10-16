@@ -1,0 +1,9 @@
+Shared FileSystems Overview
+----------------------------
+
+Zergaw CloudStack offers fully managed NFS Shared FileSystems to all users.
+This section gives technical details on how to create/manage a Shared FileSystem
+using basic lifecycle operations and also some implementation details.
+
+.. note:: 
+   This feature is available only on advanced zones without security groups.

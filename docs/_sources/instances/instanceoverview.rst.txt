@@ -1,0 +1,28 @@
+Overview of Instance
+=======================
+
+Zergaw CloudStack provides several guest management operations for 
+end Users and administrators. Instances may be stopped, started, 
+rebooted, and destroyed.
+
+Guest Instance can have two names for use in different contexts. 
+
+-  Display name – the name displayed in the CloudStack web UI. Can be
+   set by the User. Defaults to Instance name.
+
+-  Name – host name that the DHCP server assigns to the Instance. Can be set
+   by the User. Defaults to Instance name
+
+Guest Instances can be configured to be Highly Available (HA). An HA-enabled
+Instance is monitored by the system. If the system detects that the Instance is
+down, it will attempt to restart the Instance, possibly on a different host.
+
+Each new Instance is allocated a private IP address from the address pool that is defined
+on the Guest Network or VPC Tier. If needed a static NAT between the public IP address 
+and the private address of the Instace can be configured.
+
+Zergaw CloudStack cannot distinguish a guest Instance that was shut down by the User
+(such as with the “shutdown” command in Linux) from an Instance that shut down
+unexpectedly. If an HA-enabled Instance is shut down from inside the Instance,
+CloudStack will restart it. To shut down an HA-enabled Instance, you must go
+through the Zergaw CloudStack UI or API.

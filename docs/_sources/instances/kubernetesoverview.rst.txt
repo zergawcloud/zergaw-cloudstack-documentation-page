@@ -1,0 +1,35 @@
+Overview of Kubernetes
+=========================
+
+Zergaw Kubernetes service provides the functionality of running and managing 
+Kubernetes clusters. Highly available, scalable Kubernetes clusters can be 
+created to run containerized deployments without having to set up Kubernetes 
+on each container node manually. The service will automatically provision 
+the desired number of Instances as per cluster size using the binaries 
+corresponding to the provided Kubernetes version. Additionally, the 
+service provides the functionality to upgrade and scale clusters. 
+Running clusters can be upgraded to a newer minor or patch Kubernetes 
+version at a time. Running clusters can also be scaled up or down based 
+on the number of worker nodes provided and to the service offering used 
+by each node.
+
+.. note::
+   - Multi-control nodes, HA cluster can be created for Kubernetes version 1.16 and above only.
+
+This is done by Kubernetes Service plugin that adds Kubernetes integration to Zergaw CloudStack.
+For deployment and setup of Kubernetes on cluster nodes, the plugin uses
+the Kubernetes tool, 'kubeadm'. kubeadm is the command-line tool for easily 
+provisioning a secure Kubernetes cluster on top of physical or cloud servers 
+or Instances. Under the hood, control node(s) of the cluster starts a Kubernetes 
+cluster using kubeadm init command with a custom token, and worker nodes join 
+this Kubernetes cluster using kubeadm join command with the same token.
+To access the Kubernetes dashboard securely, the plugin provides access to kubeconfig 
+file data which uses the Kubernetes tool kubectl to run a local proxy and thereby 
+access the dashboard. More about kubectl here: https://kubernetes.io/docs/reference/kubectl/overview/
+The service allows creation of Kubernetes clusters using the UI or API. 
+Both UI and API provide the ability to list, delete, scale, upgrade, stop 
+and start these clusters.
+
+The Kubernetes service provides the functionality to manage multiple supported 
+Kubernetes versions. Management can be via both UI and API. A supported version 
+corresponds to a specific Kubernetes version for which an ISO has been uploaded.

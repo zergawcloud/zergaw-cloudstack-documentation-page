@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Instance Management | Zergaw CloudStack</title>
+<meta content="Instance Management | Zergaw CloudStack" property="og:title"/>
+<meta content="Instance Management | Zergaw CloudStack" name="twitter:title"/>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css?v=82226792" rel="stylesheet" type="text/css"/>
+<link href="https://zergawcloud.github.io/zergaw-cloudstack-doc/instances/virtual_machines/instancemanagement.html" rel="canonical"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="instancesnapshot.html" rel="next" title="Instance Snapshots"/>
+<link href="instancelifecycle.html" rel="prev" title="Instance Lifecycle"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" @scroll.window="showScrollTop = pageYOffset &gt; 100" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="24" src="../../_static/zergaw-dark.png" width="24"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="24" src="../../_static/zergaw-light.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a><nav class="flex items-center space-x-6 text-sm font-medium">
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://cloudstack.zergaw.com" rel="noopener nofollow">Portal</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../index.html">Doc</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../faq/index.html">FAQ</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../howto/index.html">How to's</a>
+</nav></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="16" src="../../_static/zergaw-dark.png" width="16"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="16" src="../../_static/zergaw-light.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="flex md:hidden flex-col font-medium mt-4">
+<a href="https://cloudstack.zergaw.com" rel="nofollow noopener">Portal</a>
+<a href="../../index.html">Doc</a>
+<a href="../../faq/index.html">FAQ</a>
+<a href="../../howto/index.html">How to's</a>
+</nav><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/onboarding.html">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/ui.html">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/quickstart.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/concepts.html">Terminologies</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templateandiso/isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetwork.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/firewall.html">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/nat.html">IP Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/publicip.html">Public IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpn.html">VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instanceuserdata.html">Instance User-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instanceautoscale.html">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumemanagement.html">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../index.html">
+<span class="hidden md:inline">Zergaw CloudStack</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../index.html">Compute</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Instance Management</span>
+</nav>
+<div id="content" role="main">
+<section id="instance-management">
+<h1>Instance Management<a class="headerlink" href="#instance-management" title="Link to this heading"><span>#</span></a></h1>
+<section id="scheduling-operations-on-an-instance">
+<h2>Scheduling operations on an Instance<a class="headerlink" href="#scheduling-operations-on-an-instance" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#scheduling-operations-on-an-instance'"><span>#</span></a></h2>
+<p>After an Instance is created, you can schedule Instance lifecycle operations using cron expressions. The operations that can be scheduled are:</p>
+<ul class="simple">
+<li><p>Start</p></li>
+<li><p>Stop</p></li>
+<li><p>Reboot</p></li>
+<li><p>Force Stop</p></li>
+<li><p>Force Reboot</p></li>
+</ul>
+<p>To schedule an operation on an Instance through the UI:</p>
+<ol class="arabic">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the left navigation, click Instances.</p></li>
+<li><p>Click the Instance that you want to schedule the operation on.</p></li>
+<li><p>On the Instance details page, click the <strong>Schedule</strong> button. <img alt="Instance Schedule Tab" src="../../_images/vm-schedule-tab.png"/></p></li>
+<li><p>Click on <strong>Add schedule</strong> button to add a new schedule or click on Edit button <img alt="button to edit the properties of an Instance" src="../../_images/edit-icon.png"/> to edit
+an existing schedule. <img alt="Instance Schedule Form" src="../../_images/vm-schedule-form.png"/></p></li>
+<li><p>Configure the schedule as per requirements:</p>
+<ul class="simple">
+<li><p><strong>Description</strong>: Enter a description for the schedule. If left empty, it’s generated on the basis of action and the schedule.</p></li>
+<li><p><strong>Action</strong>: Select the action to be triggered by the schedule. Can’t be changed once the schedule has been created.</p></li>
+<li><p><strong>Schedule</strong>: Select the frequency using cron format at which the action should be triggered.
+For example, <cite>* * * * *</cite> will trigger the job every minute.</p></li>
+<li><p><strong>Timezone</strong>: Select the timezone in which the schedule should be triggered.</p></li>
+<li><p><strong>Start Date</strong>: Date at the specified time zone after which the schedule becomes active.
+Defaults to current timestamp plus 1 minute.</p></li>
+<li><p><strong>End Date</strong>: Date at the specified time zone before which the schedule is active.
+If not set, schedule won’t become inactive.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s not possible to remove the end date once it’s configured.</p>
+</div>
+</li>
+<li><p>Click OK to save the schedule.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If multiple schedules are configured for an Instance and the scheduled time coincides, then only the schedule which was created first
+will be executed and the rest will be skipped.</p>
+</div>
+</li>
+</ol>
+</section>
+<section id="changing-the-instance-name-os-or-group">
+<h2>Changing the Instance Name, OS, or Group<a class="headerlink" href="#changing-the-instance-name-os-or-group" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#changing-the-instance-name-os-or-group'"><span>#</span></a></h2>
+<p>After an Instance is created, you can modify the display name, operating
+system, and the group it belongs to.</p>
+<p>To access an Instance through the UI:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the left navigation, click Instances.</p></li>
+<li><p>Select the Instance that you want to modify.</p></li>
+<li><p>Click the Stop button to stop the Instance. <img alt="depicts adding an iso image" src="../../_images/stop-instance-icon.png"/></p></li>
+<li><p>Click Edit. <img alt="button to edit the properties of an Instance" src="../../_images/edit-icon.png"/></p></li>
+<li><p>Make the desired changes to the following:</p></li>
+<li><p><strong>Display name</strong>: Enter a new display name if you want to change the
+name of the Instance.</p></li>
+<li><p><strong>OS Type</strong>: Select the desired operating system.</p></li>
+<li><p><strong>Group</strong>: Enter the group name for the Instance.</p></li>
+<li><p>Click Apply.</p></li>
+</ol>
+</section>
+<section id="instance-delete-protection">
+<h2>Instance delete protection<a class="headerlink" href="#instance-delete-protection" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#instance-delete-protection'"><span>#</span></a></h2>
+<p>Zergaw CloudStack protects instances from accidental deletion using a delete protection
+flag, which is false by default. When delete protection is enabled for an
+instance, it cannot be deleted through the UI or API. It can only be deleted
+after removing delete protection from the instance.</p>
+<p>Delete protection can be enabled for an instance via updateVirtualMachine API.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>update<span class="w"> </span>virtualmachine<span class="w"> </span><span class="nv">id</span><span class="o">=</span>&lt;instance<span class="w"> </span>id&gt;<span class="w"> </span><span class="nv">deleteprotection</span><span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+</div>
+<p>To remove delete protection, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cmk<span class="w"> </span>update<span class="w"> </span>virtualmachine<span class="w"> </span><span class="nv">id</span><span class="o">=</span>&lt;instance<span class="w"> </span>id&gt;<span class="w"> </span><span class="nv">deleteprotection</span><span class="o">=</span><span class="nb">false</span>
+</span></code></pre></div>
+</div>
+<p>To enable/disable delete protection for an instance using the UI, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the navigation menu on the left, click Instances under Compute.</p></li>
+<li><p>Choose the Instance for which you want to enable/disable delete protection.</p></li>
+<li><p>Click on the Edit button <img alt="button to edit the properties of an Instance" src="../../_images/edit-icon.png"/></p></li>
+<li><p>Toggle the Delete Protection switch to enable or disable delete protection.</p></li>
+<li><p>Click Ok button to save the changes.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The instance delete protection is only considered when the instance is being
+deleted through the UI or via <cite>destroyVirtualMachine</cite> or <cite>expungeVirtualMachine</cite>
+API. If the domain/project is deleted, the instances under the domain/project
+will be deleted irrespective of the delete protection status.</p>
+</div>
+</section>
+<section id="changing-the-service-offering-for-an-instance">
+<h2>Changing the Service Offering for an Instance<a class="headerlink" href="#changing-the-service-offering-for-an-instance" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#changing-the-service-offering-for-an-instance'"><span>#</span></a></h2>
+<p>To upgrade or downgrade the level of compute resources available to an
+Instance, you can change the Instance’s compute offering.</p>
+<ol class="arabic">
+<li><p>Log in to the UI as a User or admin.</p></li>
+<li><p>In the left navigation, click Instances.</p></li>
+<li><p>Choose the Instance that you want to work with.</p></li>
+<li><p>(Skip this step if you have enabled dynamic Instance scaling; see
+<a class="reference internal" href="#cpu-and-memory-scaling"><span class="std std-ref">CPU and Memory Scaling for Running Instances</span></a>.)</p>
+<p>Click the Stop button to stop the Instance. <img alt="depicts adding an iso image" src="../../_images/stop-instance-icon.png"/></p>
+</li>
+<li><p>Click the Change Service button. <img alt="button to change the service of an Instance" src="../../_images/change-service-icon.png"/></p>
+<p>The Change service dialog box is displayed.</p>
+</li>
+<li><p>Select the offering you want to apply to the selected Instance.</p></li>
+<li><p>Click OK.</p></li>
+</ol>
+<section id="cpu-and-memory-scaling-for-running-instances">
+<span id="cpu-and-memory-scaling"></span><h3>CPU and Memory Scaling for Running Instances<a class="headerlink" href="#cpu-and-memory-scaling-for-running-instances" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#cpu-and-memory-scaling-for-running-instances'"><span>#</span></a></h3>
+<p>It is not always possible to accurately predict the CPU and RAM
+requirements when you first deploy an Instance. You might need to increase
+these resources at any time during the life of an Instance. You can dynamically
+modify CPU and RAM levels to scale up these resources for a running Instance
+without incurring any downtime.</p>
+<p>Dynamic CPU and RAM scaling can be used in the following cases:</p>
+<ul class="simple">
+<li><p>User Instances on hosts running.</p></li>
+<li><p>QemuGuestAgent Tools must be installed on the virtual
+machine.</p></li>
+<li><p>The new requested CPU and RAM values must be within the constraints
+allowed by the hypervisor and the Instance operating system.</p></li>
+<li><p>The instance should be using a custom compute offering.</p></li>
+</ul>
+</section>
+<section id="enable-dynamic-scaling-for-existing-instances">
+<h3>Enable Dynamic Scaling for Existing Instances<a class="headerlink" href="#enable-dynamic-scaling-for-existing-instances" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#enable-dynamic-scaling-for-existing-instances'"><span>#</span></a></h3>
+<p>If you are upgrading from a previous version of CloudStack, and you want
+your existing Instances created with previous versions to have the dynamic
+scaling capability, update the Instances using the following steps:</p>
+<ol class="arabic simple">
+<li><p>Install QemuGuestAgent tools on each Instance if they are not already installed.</p></li>
+<li><p>Stop the Instance.</p></li>
+<li><p>Click the Edit button.</p></li>
+<li><p>Click the Dynamically Scalable checkbox.</p></li>
+<li><p>Click Apply.</p></li>
+<li><p>Restart the Instance.</p></li>
+</ol>
+</section>
+<section id="configuring-dynamic-cpu-and-ram-scaling">
+<h3>Configuring Dynamic CPU and RAM Scaling<a class="headerlink" href="#configuring-dynamic-cpu-and-ram-scaling" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#configuring-dynamic-cpu-and-ram-scaling'"><span>#</span></a></h3>
+<p>The following options need to be enabled
+to make an Instance dynamically scalable</p>
+<ul class="simple">
+<li><p>Template from which Instance is created needs to have QemuGuestAgent Tools and it should have ‘Dynamically Scalable’
+flag set to true.</p></li>
+<li><p>Service Offering of the Instance should have ‘Dynamic Scaling Enabled’ flag set to true.
+By default, this flag is true when a Service Offering is created.</p></li>
+<li><p>While deploying an Instance, User or Admin needs to mark ‘Dynamic Scaling Enabled’ to true.
+By default this flag is set to true.</p></li>
+</ul>
+<p>If any of the above settings are false then the Instance cannot be configured as dynamically scalable.</p>
+</section>
+<section id="how-to-dynamically-scale-cpu-and-ram">
+<h3>How to Dynamically Scale CPU and RAM<a class="headerlink" href="#how-to-dynamically-scale-cpu-and-ram" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#how-to-dynamically-scale-cpu-and-ram'"><span>#</span></a></h3>
+<p>To modify the CPU and/or RAM capacity of an Instance, you need to
+change the compute offering of the Instance to a new compute offering that has
+the desired CPU value and RAM value and ‘Dynamic Scaling Enabled’ flag as true.
+You can use the same steps described above in <a class="reference external" href="#changing-the-service-offering-for-a-vm">“Changing the Service Offering for an
+Instance”</a>, but skip the step where you
+stop the Instance.</p>
+<p>When you submit a dynamic scaling request, the resources will be scaled
+up on the current host if possible. If the host does not have enough
+resources, the Instance will be live migrated to another host in the same
+cluster. If there is no host in the cluster that can fulfill the
+requested level of CPU and RAM, the scaling operation will fail. The Instance
+will continue to run as it was before.</p>
+</section>
+<section id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#limitations'"><span>#</span></a></h3>
+<ul class="simple">
+<li><p>Zergaw CloudStack will not check to be sure that the new CPU and RAM levels
+are compatible with the OS running on the Instance.</p></li>
+<li><p>On Instances running Linux 64-bit and Windows 7 32-bit operating systems,
+if the Instance is initially assigned a RAM of less than 3 GB, it can be
+dynamically scaled up to 3 GB, but not more. This is due to a known
+issue with these operating systems, which will freeze if an attempt
+is made to dynamically scale from less than 3 GB to more than 3 GB.</p></li>
+<li><p>On KVM, not all versions of Qemu/KVM may support dynamic scaling. Some combinations may result CPU or memory related failures during Instance deployment.</p></li>
+</ul>
+</section>
+<section id="affinity-groups">
+<h3>Affinity Groups<a class="headerlink" href="#affinity-groups" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#affinity-groups'"><span>#</span></a></h3>
+<p>By defining affinity groups and assigning Instances to them, the User or
+administrator can influence (but not dictate) which Instances should run on
+either the same or separate hosts. This feature allows Users to specify
+the affinity groups to which an Instance can belong. Instances with the
+same “host anti-affinity” type won’t be on the same host, which serves to
+increase fault tolerance. If a host fails, another Instance offering the same
+service (for example, hosting the User’s website) is still up and
+running on another host.
+It also allows Users to specify that Instances with the same “host affinity” type
+must run on the same host, which can be useful in ensuring connectivity and low
+latency between guest Instances.
+“non-strict host anti-affinity” is similar to, but more flexible than, “host
+anti-affinity”. In that case Instances are deployed to different hosts as long as
+there are enough hosts to satisfy the requirement, otherwise they might be
+deployed to the same host.
+“non-strict host affinity” is similar to, but more flexible than, “host affinity”,
+Instances are ideally placed together in the same host, but only if possible.</p>
+<p>The scope of an affinity group is on an Account level.</p>
+<section id="creating-a-new-affinity-group">
+<h4>Creating a New Affinity Group<a class="headerlink" href="#creating-a-new-affinity-group" title="Link to this heading"><span>#</span></a></h4>
+<p>To add an affinity group:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as an administrator or User.</p></li>
+<li><p>In the left navigation bar, click Affinity Groups.</p></li>
+<li><p>Click Add affinity group. In the dialog box, fill in the following
+fields:</p>
+<ul class="simple">
+<li><p>Name. Give the group a name.</p></li>
+<li><p>Description. Any desired text to tell more about the purpose of
+the group.</p></li>
+<li><p>Type. Zergaw CloudStack supports four types of affinity groups. “host
+anti-affinity”, “host affinity”, “non-strict host affinity” and
+“non-strict host anti-affinity”. “host anti-affinity” indicates
+that the Instances in this group must not be placed on the same
+host with each other. “host affinity” on the other hand indicates
+that Instances in this group must be placed on the same host.
+“non-strict host anti-affinity” indicates that Instances in this group
+should be deployed to different hosts.
+“non-strict host affinity” indicates that Instances in this group
+should not be deployed to same hosts.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="assign-a-new-instance-to-an-affinity-group">
+<h4>Assign a New Instance to an Affinity Group<a class="headerlink" href="#assign-a-new-instance-to-an-affinity-group" title="Link to this heading"><span>#</span></a></h4>
+<p>To assign a new Instance to an affinity group:</p>
+<ul class="simple">
+<li><p>Create the Instance as usual, as described in <a class="reference external" href="virtual_machines.html#creating-instances">“Creating
+Instances”</a>. In the Add Instance
+wizard, there is a new Affinity tab where you can select the
+affinity group.</p></li>
+</ul>
+</section>
+<section id="change-affinity-group-for-an-existing-instance">
+<h4>Change Affinity Group for an Existing Instance<a class="headerlink" href="#change-affinity-group-for-an-existing-instance" title="Link to this heading"><span>#</span></a></h4>
+<p>To assign an existing Instance to an affinity group:</p>
+<ol class="arabic simple">
+<li><p>Log in to the UI as an administrator or User.</p></li>
+<li><p>In the left navigation bar, click Instances.</p></li>
+<li><p>Click the name of the Instance you want to work with.</p></li>
+<li><p>Stop the Instance by clicking the Stop button.</p></li>
+<li><p>Click the Change Affinity button. <img alt="button to assign an affinity group to an Instance." src="../../_images/change-affinity-button.png"/></p></li>
+</ol>
+</section>
+<section id="view-members-of-an-affinity-group">
+<h4>View Members of an Affinity Group<a class="headerlink" href="#view-members-of-an-affinity-group" title="Link to this heading"><span>#</span></a></h4>
+<p>To see which Instances are currently assigned to a particular affinity group:</p>
+<ol class="arabic">
+<li><p>In the left navigation bar, click Affinity Groups.</p></li>
+<li><p>Click the name of the group you are interested in.</p></li>
+<li><p>Click View Instances. The members of the group are listed.</p>
+<p>From here, you can click the name of any Instance in the list to access all
+its details and controls.</p>
+</li>
+</ol>
+</section>
+<section id="delete-an-affinity-group">
+<h4>Delete an Affinity Group<a class="headerlink" href="#delete-an-affinity-group" title="Link to this heading"><span>#</span></a></h4>
+<p>To delete an affinity group:</p>
+<ol class="arabic">
+<li><p>In the left navigation bar, click Affinity Groups.</p></li>
+<li><p>Click the name of the group you are interested in.</p></li>
+<li><p>Click Delete.</p>
+<p>Any Instance that is a member of the affinity group will be disassociated
+from the group. The former group members will continue to run
+normally on the current hosts, but if the Instance is restarted, it will no
+longer follow the host allocation rules from its former affinity
+group.</p>
+</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="changing-an-instance-s-base-image">
+<h2>Changing an Instance’s Base Image<a class="headerlink" href="#changing-an-instance-s-base-image" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#changing-an-instance-s-base-image'"><span>#</span></a></h2>
+<p>Every Instance is created from a base image, which is a Template or ISO which
+has been created and stored in CloudStack. Both cloud administrators and
+end Users can create and modify Templates, ISOs, and Instances.</p>
+<p>In Zergaw CloudStack, you can change an existing Instance’s base image from one
+Template to another, or from one ISO to another. (You can not change
+from an ISO to a Template, or from a Template to an ISO).</p>
+<p>For example, suppose there is a Template based on a particular operating
+system, and the OS vendor releases a software patch. The administrator
+or User naturally wants to apply the patch and then make sure existing
+Instances start using it. Whether a software update is involved or not, it’s
+also possible to simply switch an Instance from its current Template to any
+other desired Template.</p>
+<p>To change an Instance’s base image, call the restoreVirtualMachine API command
+and pass in the Instance ID and a new Template ID. The Template
+ID parameter may refer to either a Template or an ISO, depending on
+which type of base image the Instance was already using (it must match the
+previous type of image). When this call occurs, the Instance’s root disk is
+first destroyed, then a new root disk is created from the source
+designated in the Template ID parameter. The new root disk is attached
+to the Instance, and now the Instance is based on the new Template.</p>
+<p>You can also omit the Template ID parameter from the
+restoreVirtualMachine call. In this case, the Instance’s root disk is
+destroyed and recreated, but from the same Template or ISO that was
+already in use by the Instance.</p>
+</section>
+<section id="instance-settings-for-virtual-trusted-platform-module-vtpm">
+<h2>Instance Settings for Virtual Trusted Platform Module (vTPM)<a class="headerlink" href="#instance-settings-for-virtual-trusted-platform-module-vtpm" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#instance-settings-for-virtual-trusted-platform-module-vtpm'"><span>#</span></a></h2>
+<p>Trusted Platform Module (TPM) is a standard for a secure cryptoprocessor, which
+can securely store artifacts used to authenticate the platform, including passwords,
+certificates, or encryption keys. TPM is required by recent Windows releases.</p>
+<p>Virtual Trusted Platform Module (vTPM) is the software-based representation of physical TPM.
+Zergaw CloudStack supports vTPM for instances running on KVM.</p>
+<p><img alt="Set boot type to UEFI and mode to SECURE" src="../../_images/vm-settings-uefi-secure.png"/>
+UEFI setting</p>
+<ul class="simple">
+<li><p>On Vmware, the boot type must be set to UEFI. Boot mode can be SECURE (recommended) or LEGACY.</p></li>
+<li><p>On KVM, it is recommended to set boot type to UEFI, and boot mode to SECURE.</p></li>
+<li><p>UEFI is required for some Windows versions.</p></li>
+</ul>
+<p><img alt="List of TPM models for KVM" src="../../_images/vm-settings-virtual-tpm-model-kvm.png"/>
+TPM model for KVM. There are two options:</p>
+<ul class="simple">
+<li><p>tpm-tis, TIS means TPM Interface Specification;</p></li>
+<li><p>tpm-crb, CRB means Command-Response Buffer.</p></li>
+</ul>
+<p><img alt="List of TPM versions for KVM" src="../../_images/vm-settings-virtual-tpm-version-kvm.png"/>
+TPM version for KVM. There are two options:</p>
+<ul class="simple">
+<li><p>2.0. This is the default TPM version. It is used when version is not specified or invalid.</p></li>
+<li><p>1.2. This is not supported with CRB model.</p></li>
+</ul>
+<p><img alt="Enable vTPM or not for VMware" src="../../_images/vm-settings-virtual-tpm-enabled-vmware.png"/></p>
+</section>
+<section id="configuring-multiple-ip-addresses-on-a-single-nic">
+<h2>Configuring Multiple IP Addresses on a Single NIC<a class="headerlink" href="#configuring-multiple-ip-addresses-on-a-single-nic" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#configuring-multiple-ip-addresses-on-a-single-nic'"><span>#</span></a></h2>
+<p>Zergaw CloudStack provides you the ability to associate multiple private IP
+addresses per Guest Instance NIC. In addition to the primary IP, you can
+assign additional IPs to the Guest Instance NIC. This feature is supported on
+all the network configurations: Basic, Advanced, and VPC. Security
+Groups, Static NAT and Port forwarding services are supported on these
+additional IPs.</p>
+<p>As always, you can specify an IP from the guest subnet; if not
+specified, an IP is automatically picked up from the Guest Instance subnet.
+You can view the IPs associated with for each Guest Instance NICs on the UI.
+You can apply NAT on these additional guest IPs by using network
+configuration option in the CloudStack UI. You must specify the NIC to
+which the IP should be associated.</p>
+<section id="use-cases">
+<h3>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#use-cases'"><span>#</span></a></h3>
+<p>Some of the use cases are described below:</p>
+<ul class="simple">
+<li><p>Network devices, such as firewalls and load balancers, generally work
+best when they have access to multiple IP addresses on the network
+interface.</p></li>
+<li><p>Moving private IP addresses between interfaces or instances.
+Applications that are bound to specific IP addresses can be moved
+between instances.</p></li>
+<li><p>Hosting multiple SSL Websites on a single instance. You can install
+multiple SSL certificates on a single instance, each associated with
+a distinct IP address.</p></li>
+</ul>
+</section>
+<section id="guidelines">
+<h3>Guidelines<a class="headerlink" href="#guidelines" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#guidelines'"><span>#</span></a></h3>
+<p>To prevent IP conflict, configure different subnets when multiple
+networks are connected to the same instance.</p>
+</section>
+<section id="assigning-additional-ips-to-an-instance">
+<h3>Assigning Additional IPs to an instance<a class="headerlink" href="#assigning-additional-ips-to-an-instance" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#assigning-additional-ips-to-an-instance'"><span>#</span></a></h3>
+<ol class="arabic">
+<li><p>Log in to the UI.</p></li>
+<li><p>In the left navigation bar, click Instances.</p></li>
+<li><p>Click the name of the instance you want to work with.</p></li>
+<li><p>Click the NICs tab.</p></li>
+<li><p>Click View Secondary IPs.</p></li>
+<li><p>Click Acquire New Secondary IP, and click Yes in the confirmation
+dialog.</p>
+<p>You need to configure the IP on the Guest Instance NIC manually. Zergaw CloudStack
+will not automatically configure the acquired IP address on the instance.
+Ensure that the IP address configuration persist on instance reboot.</p>
+<p>Within a few moments, the new IP address should appear with the state
+Allocated. You can now use the IP address in Port Forwarding or
+StaticNAT rules.</p>
+</li>
+</ol>
+</section>
+<section id="port-forwarding-and-staticnat-services-changes">
+<h3>Port Forwarding and StaticNAT Services Changes<a class="headerlink" href="#port-forwarding-and-staticnat-services-changes" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#port-forwarding-and-staticnat-services-changes'"><span>#</span></a></h3>
+<p>Because multiple IPs can be associated per NIC, you are allowed to
+select a desired IP for the Port Forwarding and StaticNAT services. The
+default is the primary IP. To enable this functionality, an extra
+optional parameter ‘vmguestip’ is added to the Port forwarding and
+StaticNAT APIs (enableStaticNat, createIpForwardingRule) to indicate on
+what IP address NAT need to be configured. If vmguestip is passed, NAT
+is configured on the specified private IP of the instance. if not passed, NAT
+is configured on the primary IP of the instance.</p>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="instancelifecycle.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Instance Lifecycle
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="instancesnapshot.html">
+        Instance Snapshots
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#scheduling-operations-on-an-instance'" class="reference internal" href="#scheduling-operations-on-an-instance">Scheduling operations on an Instance</a></li>
+<li><a :data-current="activeSection === '#changing-the-instance-name-os-or-group'" class="reference internal" href="#changing-the-instance-name-os-or-group">Changing the Instance Name, OS, or Group</a></li>
+<li><a :data-current="activeSection === '#instance-delete-protection'" class="reference internal" href="#instance-delete-protection">Instance delete protection</a></li>
+<li><a :data-current="activeSection === '#changing-the-service-offering-for-an-instance'" class="reference internal" href="#changing-the-service-offering-for-an-instance">Changing the Service Offering for an Instance</a><ul>
+<li><a :data-current="activeSection === '#cpu-and-memory-scaling-for-running-instances'" class="reference internal" href="#cpu-and-memory-scaling-for-running-instances">CPU and Memory Scaling for Running Instances</a></li>
+<li><a :data-current="activeSection === '#enable-dynamic-scaling-for-existing-instances'" class="reference internal" href="#enable-dynamic-scaling-for-existing-instances">Enable Dynamic Scaling for Existing Instances</a></li>
+<li><a :data-current="activeSection === '#configuring-dynamic-cpu-and-ram-scaling'" class="reference internal" href="#configuring-dynamic-cpu-and-ram-scaling">Configuring Dynamic CPU and RAM Scaling</a></li>
+<li><a :data-current="activeSection === '#how-to-dynamically-scale-cpu-and-ram'" class="reference internal" href="#how-to-dynamically-scale-cpu-and-ram">How to Dynamically Scale CPU and RAM</a></li>
+<li><a :data-current="activeSection === '#limitations'" class="reference internal" href="#limitations">Limitations</a></li>
+<li><a :data-current="activeSection === '#affinity-groups'" class="reference internal" href="#affinity-groups">Affinity Groups</a><ul>
+<li><a :data-current="activeSection === '#creating-a-new-affinity-group'" class="reference internal" href="#creating-a-new-affinity-group">Creating a New Affinity Group</a></li>
+<li><a :data-current="activeSection === '#assign-a-new-instance-to-an-affinity-group'" class="reference internal" href="#assign-a-new-instance-to-an-affinity-group">Assign a New Instance to an Affinity Group</a></li>
+<li><a :data-current="activeSection === '#change-affinity-group-for-an-existing-instance'" class="reference internal" href="#change-affinity-group-for-an-existing-instance">Change Affinity Group for an Existing Instance</a></li>
+<li><a :data-current="activeSection === '#view-members-of-an-affinity-group'" class="reference internal" href="#view-members-of-an-affinity-group">View Members of an Affinity Group</a></li>
+<li><a :data-current="activeSection === '#delete-an-affinity-group'" class="reference internal" href="#delete-an-affinity-group">Delete an Affinity Group</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#changing-an-instance-s-base-image'" class="reference internal" href="#changing-an-instance-s-base-image">Changing an Instance’s Base Image</a></li>
+<li><a :data-current="activeSection === '#instance-settings-for-virtual-trusted-platform-module-vtpm'" class="reference internal" href="#instance-settings-for-virtual-trusted-platform-module-vtpm">Instance Settings for Virtual Trusted Platform Module (vTPM)</a></li>
+<li><a :data-current="activeSection === '#configuring-multiple-ip-addresses-on-a-single-nic'" class="reference internal" href="#configuring-multiple-ip-addresses-on-a-single-nic">Configuring Multiple IP Addresses on a Single NIC</a><ul>
+<li><a :data-current="activeSection === '#use-cases'" class="reference internal" href="#use-cases">Use Cases</a></li>
+<li><a :data-current="activeSection === '#guidelines'" class="reference internal" href="#guidelines">Guidelines</a></li>
+<li><a :data-current="activeSection === '#assigning-additional-ips-to-an-instance'" class="reference internal" href="#assigning-additional-ips-to-an-instance">Assigning Additional IPs to an instance</a></li>
+<li><a :data-current="activeSection === '#port-forwarding-and-staticnat-services-changes'" class="reference internal" href="#port-forwarding-and-staticnat-services-changes">Port Forwarding and StaticNAT Services Changes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2019-2025, Zergaw CloudStack </p>
+</div>
+</div>
+</footer>
+</div><button :class="{'opacity-0 invisible' : !showScrollTop}" @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 p-2 z-10 rounded-sm bg-gray-700 text-xs text-white transition-all duration-1000 hover:bg-gray-950 focus:bg-gray-950" id="scrolltop" x-cloak="">
+<svg aria-hidden="true" class="inline fill-current mb-[2px]" height="14" viewbox="0 96 960 960" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="M450 896V370L202 618l-42-42 320-320 320 320-42 42-248-248v526h-60Z"></path>
+</svg>
+  Back to top
+</button>
+<script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../../_static/doctools.js?v=9bcbadda"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+|menu_acs_logo|
+
+Projects
+==========
+.. toctree::
+   :maxdepth: 4
+
+   projectsoverview
+   managingprojects
+   projectspermissions

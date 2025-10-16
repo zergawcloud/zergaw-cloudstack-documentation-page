@@ -1,0 +1,115 @@
+Volume Snapshots
+------------------
+
+Zergaw CloudStack supports Snapshots of disk volumes. Snapshots are a
+point-in-time capture of Instance disks. Memory and CPU states
+are not captured. 
+
+Snapshots may be taken for volumes, including both root and data disks.
+The administrator places a limit on the number of stored
+Snapshots per user. Users can create new volumes from the Snapshot for
+recovery of particular files and they can create Templates from
+Snapshots to boot from a restored disk.
+
+Users can create Snapshots manually or by setting up automatic recurring
+Snapshot policies. Users can also create disk volumes from Snapshots,
+which may be attached to an Instance like any other disk volume. Snapshots of
+both root disks and data disks are supported. A disk
+recovered from Snapshot of a root disk is treated as a regular data
+disk; the data on recovered disk can be accessed by attaching the disk
+to an Instance.
+
+A completed Snapshot is copied from primary storage to secondary
+storage, where it is stored until deleted or purged by newer Snapshot.
+
+Users can also select the desired zones at the time of taking manual snapshots
+or while creating a snapshot policy. When additional zone(s) are selected and
+snapshot backup is allowed, the snapshot will be first copied to the secondary
+storage of the native zone and then copied to the additional zone(s) from there.
+
+How to Snapshot a Volume
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Log in to the UI as a user or administrator.
+
+#. In the left navigation bar, click Storage.
+
+#. In Select View, be sure Volumes is selected.
+
+#. Click the name of the volume you want to Snapshot.
+
+#. Click the Snapshot button. |SnapshotButton.png|
+
+Volume Snapshot specifics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a Volume Snapshot for a running Instance is subjected to
+possible volume corruption in certain cases.
+When the VM is running, a disk-only VM snapshot is taken, exclusively for the volume in question.
+If the VM is stopped, the volume will be converted (with qemu-img convert). Then the snapshot will be copied 
+to the secondary storage. If the snapshot is being taken in a file-based storage (NFS, SharedMountPoint, Local),
+it will be copied directly to its final storage location, according to the configuration.
+
+
+Automatic Snapshot Creation and Retention
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Users can set up a recurring Snapshot policy to automatically create
+multiple Snapshots of a disk at regular intervals. Snapshots can be
+created on an hourly, daily, weekly, or monthly interval. One Snapshot
+policy can be set up per disk volume. For example, a user can set up a
+daily Snapshot at 02:30.
+
+With each Snapshot schedule, users can also specify the number of
+recurring Snapshots to be retained. Older Snapshots that exceed the
+retention limit are automatically deleted. The limit applies only
+to those Snapshots that are taken as part of an automatic recurring
+Snapshot policy. Additional manual Snapshots can be created and
+retained.
+
+Volume Status
+~~~~~~~~~~~~~
+
+When a Snapshot operation is triggered by means of a recurring Snapshot
+policy, a Snapshot is skipped if a volume has remained inactive since
+its last Snapshot was taken. A volume is considered to be inactive if it
+is either detached or attached to an Instance that is not running. 
+
+When a Snapshot is taken manually, a Snapshot is always created
+regardless of whether a volume has been active or not.
+
+
+Snapshot Restore
+~~~~~~~~~~~~~~~~
+
+There are two paths to restoring Snapshots. Users can create a volume
+from the Snapshot. The volume can then be mounted to an Instance and files
+recovered as needed. Alternatively, a Template may be created from the
+Snapshot of a root disk. The user can then boot an Instance from this Template
+to effect recovery of the root disk.
+
+Some hypervisor and storage combinations also allow for Instances and volumes
+to be reverted from snapshots. In such cases the **Revert to snapshot** action for
+a snapshot in the UI or the `revertSnapshot` API can be used to restore the volume
+to a particular snapshot. It should be noted that, when supported by the combination
+of hypervisor and storage, the snapshot must be available in the zone in which volume
+to be restored is present.
+
+.. note::
+   When creating a volume from a snapshot of a DATA disk, it should be noted that
+   the volume's disk offering must be accessible in the target zone. In case the disk
+   offering is using storage tags then such tagged storage resources must be available
+   in the target zone.
+
+Snapshot Copy
+~~~~~~~~~~~~~
+
+Zergaw CloudStack allows copying an existing backed-up snapshot to multiple zones.
+Users can either use the UI in the snapshot details view or the `copySnapshot`
+API to copy a snapshot from one zone to other zone(s). Snapshot copies can
+be used for disastser recovery and creating volumes and templates in the
+specific zone. Later if not needed, these copies or replicas can be individually
+deleted without affecting other replicas.
+
+.. |SnapshotButton.png| image:: /_static/images/SnapshotButton.png
+   :alt: Snapshot Button.

@@ -1,0 +1,17 @@
+|menu_acs_logo|
+
+Compute
+========
+
+.. toctree::
+   :maxdepth: 4
+
+   instanceoverview
+   virtual_machines/instancelifecycle
+   virtual_machines/instancemanagement
+   virtual_machines/instancesnapshot
+   virtual_machines/instancesshkey
+   virtual_machines/instanceuserdata
+   virtual_machines/instanceautoscale
+   kubernetesoverview
+   kubernetes/kubernetesmanagement

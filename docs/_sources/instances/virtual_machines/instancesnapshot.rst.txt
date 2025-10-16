@@ -1,0 +1,110 @@
+Instance Snapshots
+==================
+
+In addition to the existing Zergaw CloudStack ability to snapshot individual Instance
+volumes, you can take an Instance Snapshot to preserve all the Instance's data
+volumes as well as (optionally) its CPU/memory state. This is useful for
+quick restore of an Instance. For example, you can snapshot an Instance, then make
+changes such as software upgrades. If anything goes wrong, simply
+restore the Instance to its previous state using the previously saved Instance
+Snapshot.
+
+The Snapshot is created using the hypervisor's native Snapshot facility.
+The Instance Snapshot includes not only the data volumes, but optionally also
+whether the Instance is running or turned off (CPU state) and the memory
+contents. The Snapshot is stored in CloudStack's primary storage.
+
+Instance Snapshots can have a parent/child relationship. Each successive
+Snapshot of the same Instance is the child of the Snapshot that came before
+it. Each time you take an additional Snapshot of the same Instance, it saves
+only the differences between the current state of the Instance and the state
+stored in the most recent previous Snapshot. The previous Snapshot
+becomes a parent, and the new Snapshot is its child. It is possible to
+create a long chain of these parent/child Snapshots, which amount to a
+"redo" record leading from the current state of the Instance back to the
+original.
+
+.. note::
+	``freeze`` and ``thaw`` of Instance is maintained by the guest agent.
+	``qemu-guest-agent`` has to be installed in the Instance.
+
+When the snapshotting is complete, the Instance is thawed.
+
+Limitations on Instance Snapshots
+---------------------------------
+
+-  If an Instance has some stored Snapshots, you can't attach new volume to the
+   Instance or delete any existing volumes. If you change the volumes on the
+   Instance, it would become impossible to restore the Instance Snapshot which was
+   created with the previous volume structure. If you want to attach a
+   volume to such an Instance, first delete its Snapshots.
+
+-  Instance Snapshots which include both data volumes and memory can't be kept
+   if you change the Instance's service offering. Any existing Instance Snapshots of
+   this type will be discarded.
+
+-  You can't make an Instance Snapshot at the same time as you are taking a
+   Volume Snapshot.
+
+Using Instance Snapshots
+------------------------
+
+To create an Instance Snapshot using the CloudStack UI:
+
+#. Log in to the UI as a user or administrator.
+
+#. Click Instances.
+
+#. Click the name of the Instance you want to Snapshot.
+
+#. Click the Take Instance Snapshot button. |VMSnapshotButton.png|
+
+   .. note::
+      If a Snapshot is already in progress, then clicking this button
+      will have no effect.
+
+#. Provide a name and description. These will be displayed in the Instance
+   Snapshots list.
+
+#. (For running Instances only) If you want to include the Instance's memory in the
+   Snapshot, click the Memory checkbox. This saves the CPU and memory
+   state of the Instance. If you don't check this box, then only
+   the current state of the Instance disk is saved. Checking this box makes
+   the Snapshot take longer.
+
+#. Quiesce Instance: check this box if you want to quiesce the file system on
+   the Instance before taking the Snapshot.
+
+   When this option is used with Zergaw CloudStack-provided primary storage,
+   the quiesce operation is performed by the underlying hypervisor
+   (VMware is supported). When used with another primary storage
+   vendor's plugin, the quiesce operation is provided according to the
+   vendor's implementation.
+
+#. Click OK.
+
+To delete a Snapshot or restore an Instance to the state saved in a particular
+Snapshot:
+
+#. Navigate to the Instance as described in the earlier steps.
+
+#. Click View Instance Snapshots.
+
+#. In the list of Snapshots, click the name of the Snapshot you want to
+   work with.
+
+#. Depending on what you want to do:
+
+   To delete the Snapshot, click the Delete button. |delete-button.png|
+
+   To revert to the Snapshot, click the Revert button. |revert-vm.png|
+
+.. note::
+   Instance Snapshots are deleted automatically when an Instance is destroyed. You don't
+   have to manually delete the Snapshots in this case.
+
+.. |VMSnapshotButton.png| image:: /_static/images/VMSnapshotButton.png
+   :alt: button to restart a VPC
+.. |delete-button.png| image:: /_static/images/delete-button.png
+.. |revert-vm.png| image:: /_static/images/revert-vm.png
+   :alt: depicts adding an iso image

@@ -1,0 +1,40 @@
+Project Permissions
+---------------------
+
+Adding Members to a Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New members can be added to a project by the project’s administrator,
+the domain administrator of the domain where the project resides. 
+You can add members directly through the UI.
+
+
+Working with Project Roles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Zergaw CloudStack allows adding project members with a desired project role. A
+project role will be assigned to the member in addition to their base
+account role. Project Roles are restrictive in nature and can be used to
+further restrict certain API access to the members within the project.
+It is important to note that a project role cannot be used to elevate an
+existing user's permissions. Project roles can be created or managed
+using `Project roles` tab in the project details UI.
+
+
+Adding Project Members From the UI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The steps below tell how to add a new member to a project.
+
+#. Log in to the CloudStack UI.
+
+#. In the left navigation, click Projects.
+
+#. Click the name of the project you want to work with.
+
+#. Click on the `Add Account to Project` button. This will have 2 tabs, one to add Account to the project and the other to add a User to the project. Here, we can specify the:
+
+      - Account or User and/or email id of the User to be invited,
+      - (Optional) the Role i.e, Admin or Regular that the User is to be added as, defaults to Regular role,
+      - (Optional) the Project role specifying the list of APIs the User is allowed/ denied access to
+
+#. You can add only people who have an Account in this cloud and within the same domain as the project.

@@ -1,0 +1,15 @@
+Volume Overview
+--------------------
+
+A volume provides storage to a Guest Instance. The volume can provide for a
+root disk or an additional data disk.
+
+Zergaw CloudStack defines a volume as a unit of storage available to a Guest
+Instance. Volumes are either root disks or data disks. The root disk has "/"
+in the file system and is usually the boot device. Data disks provide
+for additional storage, for example: "/opt" or "D:". Every Guest Instance has
+a root disk, and Instances can also optionally have a data disk. End Users can
+mount multiple data disks to Guest Instances. Users choose data disks from the
+disk offerings created by administrators. The User can create a Template
+from a volume as well; this is the standard procedure for private
+Template creation.

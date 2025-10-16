@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Cloud-init integration | Zergaw CloudStack</title>
+<meta content="Cloud-init integration | Zergaw CloudStack" property="og:title"/>
+<meta content="Cloud-init integration | Zergaw CloudStack" name="twitter:title"/>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../../_static/theme_overrides.css?v=82226792" rel="stylesheet" type="text/css"/>
+<link href="https://zergawcloud.github.io/zergaw-cloudstack-doc/templateandiso/templates/_cloud_init.html" rel="canonical"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" @scroll.window="showScrollTop = pageYOffset &gt; 100" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="24" src="../../_static/zergaw-dark.png" width="24"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="24" src="../../_static/zergaw-light.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a><nav class="flex items-center space-x-6 text-sm font-medium">
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://cloudstack.zergaw.com" rel="noopener nofollow">Portal</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../index.html">Doc</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../faq/index.html">FAQ</a>
+<a class="transition-colors hover:text-foreground/80 text-foreground/60" href="../../howto/index.html">How to's</a>
+</nav></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../index.html">
+<img alt="Logo" class="mr-2 hidden dark:block" height="16" src="../../_static/zergaw-dark.png" width="16"/>
+<img alt="Logo" class="mr-2 dark:hidden" height="16" src="../../_static/zergaw-light.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">Zergaw CloudStack</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="flex md:hidden flex-col font-medium mt-4">
+<a href="https://cloudstack.zergaw.com" rel="nofollow noopener">Portal</a>
+<a href="../../index.html">Doc</a>
+<a href="../../faq/index.html">FAQ</a>
+<a href="../../howto/index.html">How to's</a>
+</nav><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/onboarding.html">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/ui.html">User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/quickstart.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/concepts.html">Terminologies</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetwork.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/firewall.html">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/nat.html">IP Forwarding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/publicip.html">Public IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../networking/networking/vpn.html">VPN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../instances/index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../instances/instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instancemanagement.html">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instanceuserdata.html">Instance User-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instanceautoscale.html">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volumemanagement.html">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../index.html">
+<span class="hidden md:inline">Zergaw CloudStack</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Cloud-init integration</span>
+</nav>
+<div id="content" role="main">
+<section id="cloud-init-integration">
+<h1>Cloud-init integration<a class="headerlink" href="#cloud-init-integration" title="Link to this heading"><span>#</span></a></h1>
+<p>Zergaw Cloudstack and cloud-init integration provide Instances with advanced management features such as:</p>
+<ul class="simple">
+<li><p>Password management</p></li>
+<li><p>SSH keys management</p></li>
+<li><p>Partition management</p></li>
+<li><p>User-data input</p></li>
+<li><p><a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html">Other modules</a></p></li>
+</ul>
+<p>Examples for relevant features are listed for different distributions.</p>
+</section>
+<hr class="docutils"/>
+<section id="linux-with-cloud-init">
+<h1>Linux with Cloud-init<a class="headerlink" href="#linux-with-cloud-init" title="Link to this heading"><span>#</span></a></h1>
+<p>These features can be implemented in <a class="reference external" href="_create_linux.html#creating-a-linux-template">“Linux Template creation process”</a>. where they are executed just before the <strong>Template cleanup</strong> step.</p>
+<ol class="arabic">
+<li><p><strong>Install and configure cloud-init</strong></p>
+<p>Install cloud-init and mentioned auxiliary packages.</p>
+<p>~  CentOS</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>cloud-init<span class="w"> </span>wget
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>~  Ubuntu</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>cloud-init<span class="w"> </span>wget
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>Configure cloud-init to detect Cloudstack data source during runtime.</p>
+<p>Cloud-init data sources can be specified in /etc/cloud/cloud.cfg.d/ directory. Add the following config in /etc/cloud/cloud.cfg.d/99_cloudstack.cfg.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">datasource_list:<span class="w"> </span><span class="o">[</span><span class="w"> </span>ConfigDrive,<span class="w"> </span>CloudStack,<span class="w"> </span>None<span class="w"> </span><span class="o">]</span>
+</span><span id="line-2">datasource:
+</span><span id="line-3"><span class="w">  </span>CloudStack:<span class="w"> </span><span class="o">{}</span>
+</span><span id="line-4"><span class="w">  </span>None:<span class="w"> </span><span class="o">{}</span>
+</span></code></pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Password management</strong></p>
+<p>Zergaw Cloudstack integration with cloud-init <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html?highlight=ssh_pwauth#set-passwords">set-passwords module</a> will enable the platform to set a password for each Instance created from the Main Template. Additionally it will allow to reset the user password through the GUI.</p>
+<ul>
+<li><p><strong>Enable set_passwords module on every boot</strong></p>
+<p>By default the set-passwords module runs only on first boot of the Instance, change that to run on every boot.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span>s/<span class="s2">" - set[_|-]passwords"</span>/<span class="s2">" - [set_passwords, always]"</span>/g<span class="w"> </span>/etc/cloud/cloud.cfg
+</span></code></pre></div>
+</div>
+</li>
+<li><p><strong>Specify the managed user</strong></p>
+<p>Zergaw Cloudstack will create the user, set a password and reset it when requested. To do that set the following configuration in /etc/cloud/cloud.cfg.d/80_user.cfg</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">system_info:
+</span><span id="line-2"><span class="w">  </span>default_user:
+</span><span id="line-3"><span class="w">    </span>name:<span class="w"> </span>cloud-user
+</span><span id="line-4"><span class="w">    </span>lock_passwd:<span class="w"> </span><span class="nb">false</span><span class="w">              </span><span class="c1"># disable user password login - true/false</span>
+</span><span id="line-5"><span class="w">    </span>sudo:<span class="w"> </span><span class="o">[</span><span class="se">\"</span><span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span><span class="w"> </span>ALL<span class="se">\"</span><span class="o">]</span><span class="w">       </span><span class="c1"># User permissions</span>
+</span><span id="line-6">disable_root:<span class="w"> </span><span class="m">0</span><span class="w">                     </span><span class="c1"># root remote login is 0 - enabled, 1 - disabled</span>
+</span><span id="line-7">ssh_pwauth:<span class="w"> </span><span class="m">1</span><span class="w">                           </span><span class="c1"># password login is 0 - disabled, 1- enabled</span>
+</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>SSH keys management</strong></p>
+<p>Cloud-init <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html#ssh">ssh module</a> can automatically install new SSH keys when set or reset from the UI.
+By default the module runs once during Instance creation and will fetch Cloudstack keys without any additional configuration.
+To enable Cloudstack reset SSH keys feature configure cloud-init ssh module to run on every boot.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span>s/<span class="s2">" - ssh</span>$<span class="s2">"</span>/<span class="s2">" - [ssh, always]"</span>/g<span class="w"> </span>/etc/cloud/cloud.cfg
+</span></code></pre></div>
+</div>
+</li>
+</ol>
+<hr class="docutils"/>
+<blockquote>
+<div><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the cloud-init ssh module is set to run every boot, it will regenerate the certificate fingerprint of the host. This will cause a warning to anyone that logs in the system and also bring trouble to anyone trying to automate ssh access.</p>
+</div>
+<p>Disable cloud-init regenerating host certificates on boot. If Template certificates are deleted they will be regenerated by the OS on instance first boot.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">echo</span><span class="w"> </span><span class="s2">"ssh_deletekeys: false"</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/cloud/cloud.cfg.d/49_hostkeys.cfg
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>Note that if this instance is moved or snapshotted, it will be vulnerable to man-in-the-middle attacks if the behavior is not re-enabled first.</p>
+</div></blockquote>
+<ol class="arabic">
+<li><p><strong>Partition management</strong></p>
+<p>Cloud-init can detect and resize one or more existing partitions automatically after reboot. This guide will cover root partition and volume.
+First install the <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html#growpart">Growpart module</a> as it is not shipped with cloud-init.</p>
+<p>~ Centos</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">yum<span class="w"> </span>install<span class="w"> </span>cloud-utils-growpart<span class="w"> </span>-y
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>~ Ubuntu</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">apt-get<span class="w"> </span>install<span class="w"> </span>cloud-initramfs-growroot<span class="w"> </span>-y
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p><strong>Detect and extend MBR partitions</strong></p>
+<p>Locate the root partition.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Root partition can differ per OS type, version and partition setup.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="o">[</span>root@localhost<span class="w"> </span>~<span class="o">]</span><span class="c1"># lvs</span>
+</span><span id="line-2">LV<span class="w">   </span>VG<span class="w">     </span>Attr<span class="w">       </span>LSize<span class="w">   </span>Pool<span class="w"> </span>Origin<span class="w"> </span>Data%<span class="w">  </span>Meta%<span class="w">  </span>Move<span class="w"> </span>Log<span class="w"> </span>Cpy%Sync<span class="w"> </span>Convert
+</span><span id="line-3">root<span class="w"> </span>centos<span class="w"> </span>-wi-ao----<span class="w"> </span>&lt;<span class="m">17</span>.00g
+</span><span id="line-4">swap<span class="w"> </span>centos<span class="w"> </span>-wi-ao----<span class="w">   </span><span class="m">2</span>.00g
+</span><span id="line-5"><span class="o">[</span>root@localhost<span class="w"> </span>~<span class="o">]</span><span class="c1"># vgs</span>
+</span><span id="line-6">VG<span class="w">     </span><span class="c1">#PV #LV #SN Attr   VSize   VFree</span>
+</span><span id="line-7">centos<span class="w">   </span><span class="m">1</span><span class="w">   </span><span class="m">2</span><span class="w">   </span><span class="m">0</span><span class="w"> </span>wz--n-<span class="w"> </span>&lt;<span class="m">19</span>.00g<span class="w">    </span><span class="m">0</span>
+</span><span id="line-8"><span class="o">[</span>root@localhost<span class="w"> </span>~<span class="o">]</span><span class="c1"># pvs</span>
+</span><span id="line-9">PV<span class="w">         </span>VG<span class="w">     </span>Fmt<span class="w">  </span>Attr<span class="w"> </span>PSize<span class="w">   </span>PFree
+</span><span id="line-10">/dev/xvda2<span class="w"> </span>centos<span class="w"> </span>lvm2<span class="w"> </span>a--<span class="w">  </span>&lt;<span class="m">19</span>.00g<span class="w">    </span><span class="m">0</span>
+</span></code></pre></div>
+</div>
+<p>On the current setup root is on /dev/xvda2 partition. Define the configuration below in /etc/cloud/cloud.cfg.d/50_growpartion.cfg</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">growpart:
+</span><span id="line-2"><span class="w">  </span>mode:<span class="w"> </span>auto
+</span><span id="line-3"><span class="w">  </span>devices:
+</span><span id="line-4"><span class="w">    </span>-<span class="w"> </span><span class="se">\"</span>/dev/xvda2<span class="se">\"</span>
+</span><span id="line-5"><span class="w">  </span>ignore_growroot_disabled:<span class="w"> </span><span class="nb">false</span>
+</span></code></pre></div>
+</div>
+<p>Now on every boot growpart will check and extend /dev/xvda2 if there is change in size.</p>
+</li>
+<li><p><strong>Extend Physical volume, Volume group and root lvm</strong></p>
+<p>After partition is extended the upper layers should also be resized. This can be automated with cloud-init <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html?highlight=runcmd#runcmd">runcmd module</a> . Set the configuration below in /etc/cloud/cloud.cfg.d/51_extend_volume.cfg.</p>
+<p>~ CentOS</p>
+<blockquote>
+<div><p>CentOS root volume is /dev/centos/root if no changes are done during installation. Change the value accordingly if setup is different.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">runcmd:
+</span><span id="line-2"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_VG,<span class="w"> </span>pvresize,<span class="w"> </span>/dev/xvda2<span class="w"> </span><span class="o">]</span>
+</span><span id="line-3"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_LV,<span class="w"> </span>lvresize,<span class="w"> </span>-l,<span class="w"> </span><span class="s1">'+100%FREE'</span>,<span class="w"> </span>/dev/centos/root<span class="w"> </span><span class="o">]</span>
+</span><span id="line-4"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_FS,<span class="w"> </span>xfs_growfs,<span class="w"> </span>/dev/centos/root<span class="w"> </span><span class="o">]</span>
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>~ Ubuntu</p>
+<blockquote>
+<div><p>Ubuntu 20 root volume is /dev/ubuntu-vg/ubuntu-lv if no changes are done during installation. Change the value accordingly if setup is different.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">runcmd:
+</span><span id="line-2"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_VG,<span class="w"> </span>pvresize,<span class="w"> </span>/dev/xvda3<span class="w"> </span><span class="o">]</span>
+</span><span id="line-3"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_LV,<span class="w"> </span>lvresize,<span class="w"> </span>-l,<span class="w"> </span><span class="s1">'+100%FREE'</span>,<span class="w"> </span>/dev/ubuntu-vg/ubuntu-lv<span class="w"> </span><span class="o">]</span>
+</span><span id="line-4"><span class="w">  </span>-<span class="w"> </span><span class="o">[</span><span class="w"> </span>cloud-init-per,<span class="w"> </span>always,<span class="w"> </span>grow_FS,<span class="w"> </span>xfs_growfs,<span class="w"> </span>/dev/ubuntu-vg/ubuntu-lv<span class="w"> </span><span class="o">]</span>
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The example code above is based on XFS partition type. If ext4 partitioning is utilized replace <strong>xfs_growfs</strong> with <strong>resize2fs</strong> in the last code line.
+It is possible to also use cloud-init <a class="reference external" href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html#resizefs">resize2fs module</a> .</p>
+</div>
+</li>
+<li><p><strong>Enable autoresize on every boot</strong></p>
+<p>By default cloud-init <strong>runcmd</strong> module executes defined commands on first boot only.
+Commands will run on every boot only if both <strong>runcmd</strong> and <strong>user-scripts</strong> modules are configured to run on every boot.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span>s/<span class="s2">" - runcmd"</span>/<span class="s2">" - [runcmd, always]"</span>/g<span class="w"> </span>/etc/cloud/cloud.cfg
+</span><span id="line-2">sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span>s/<span class="s2">" - scripts-user"</span>/<span class="s2">" - [scripts-user, always]"</span>/g<span class="w"> </span>/etc/cloud/cloud.cfg
+</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>User-data</strong></p>
+<p>Cloud-init can parse and execute user-data form Zergaw Cloudstack during Instance creation. This feature works as is without additional configuration.</p>
+</li>
+<li><p><strong>Network configuration with ConfigDrive</strong></p>
+<blockquote>
+<div><p>Cloud-init can fetch network configuration from ConfigDrive. To enable this,
+ensure network configuration is not disabled in cloud-init configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"\nnetwork: {}"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/cloud/cloud.cfg
+</span></code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adding/removing nic to/from an instance or updating the ip address of a nic
+will not be reflected in the instance if the instance is already running. To
+do so, run <cite>cloud-init clean –machine-id -s</cite> to clean the machine id and
+seed data. Then reboot the instance to apply the changes.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Cleanup</strong></p>
+<p>Once desired cloud-init features are implemented, clean cloud-init tracker files.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">cloud-init<span class="w"> </span>clean
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>Or do it manually.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/cloud/*
+</span></code></pre></div>
+</div>
+</div></blockquote>
+<p>If <strong>Password management</strong> feature is used clean /etc/sudoers from any cloud-init user setups.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">rm<span class="w"> </span>-rf<span class="w"> </span>/etc/sudoers.d/*
+</span></code></pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Finalize Template</strong></p>
+<p>Proceed with <a class="reference external" href="_create_linux.html">“Linux Template creation process”</a> continuing with <strong>Template cleanup</strong> step.</p>
+</li>
+</ol>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li></li>
+<li><a :data-current="activeSection === '#linux-with-cloud-init'" class="reference internal" href="#linux-with-cloud-init">Linux with Cloud-init</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2019-2025, Zergaw CloudStack </p>
+</div>
+</div>
+</footer>
+</div><button :class="{'opacity-0 invisible' : !showScrollTop}" @click="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 p-2 z-10 rounded-sm bg-gray-700 text-xs text-white transition-all duration-1000 hover:bg-gray-950 focus:bg-gray-950" id="scrolltop" x-cloak="">
+<svg aria-hidden="true" class="inline fill-current mb-[2px]" height="14" viewbox="0 96 960 960" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="M450 896V370L202 618l-42-42 320-320 320 320-42 42-248-248v526h-60Z"></path>
+</svg>
+  Back to top
+</button>
+<script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../../_static/doctools.js?v=9bcbadda"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+Working with ISOs
+===================
+
+Zergaw CloudStack supports ISOs and their attachment to Guest Instances. An ISO is a
+read-only file that has an ISO/CD-ROM style file system. Users can
+upload their own ISOs and mount them on their Guest Instances.
+
+ISOs are uploaded based on a URL. HTTP is the supported protocol. Once
+the ISO is available via HTTP specify an upload URL such as
+http://my.web.server/filename.iso.
+
+ISO images may be stored in the system and made available with a privacy
+level similar to Templates. ISO images are classified as either bootable
+or not bootable. A bootable ISO image is one that contains an OS image.
+Zergaw CloudStack allows a User to boot a Guest Instance off of an ISO image. Users
+can also attach ISO images to Guest Instances. For example, this enables
+installing PV or virtio drivers. ISO images are not
+hypervisor-specific.
+
+
+Adding an ISO
+-------------
+
+To make additional operating system or other software available for use
+with Guest Instances, you can add an ISO. The ISO is typically thought of as
+an operating system image, but you can also add ISOs for other types of
+software, such as desktop applications that you want to be installed as
+part of a Template.
+
+#. Log in to the UI as an administrator or end User.
+
+#. In the left navigation bar, click Templates.
+
+#. In Select View, choose ISOs.
+
+#. Click Add ISO.
+
+#. In the Add ISO screen, provide the following:
+
+   -  **Name**: Short name for the ISO image. For example, CentOS 6.2
+      64-bit.
+
+   -  **Description**: Display test for the ISO image. For example,
+      CentOS 6.2 64-bit.
+
+   -  **URL**: The URL that hosts the ISO image. The Management Server
+      must be able to access this location via HTTP. If needed you can
+      place the ISO image directly on the Management Server
+
+   -  **Zone**: Choose the zone where you want the ISO to be available
+
+   -  **Bootable**: Whether or not a guest could boot off this ISO
+      image. For example, a CentOS ISO is bootable, a Microsoft Office
+      ISO is not bootable.
+
+   -  **OS Type**: This helps the hypervisor perform
+      certain operations and make assumptions that improve the
+      performance of the guest. Select one of the following.
+
+      -  If the operating system of your desired ISO image is listed,
+         choose it.
+
+      -  If the OS Type of the ISO is not listed or if the ISO is not
+         bootable, choose Other.
+
+      .. note::
+         It is not recommended to choose an older version of the OS than
+         the version in the image. For example, choosing CentOS 5.4 to
+         support a CentOS 6.2 image will usually not work. In these
+         cases, choose Other.
+
+   -  **Extractable**: Choose Yes if the ISO should be available for
+      extraction.
+
+   -  **Public**: Choose Yes if this ISO should be available to other
+      Users.
+
+   -  **Arch**: The supported arch types are listed. Select the desired one.
+
+#. Click OK.
+
+   The Management Server will download the ISO. Depending on the size of
+   the ISO, this may take a long time. The ISO status column will
+   display Ready once it has been successfully downloaded into secondary
+   storage. Clicking Refresh updates the download percentage.
+
+#. **Important**: Wait for the ISO to finish downloading. If you move on
+   to the next task and try to use the ISO right away, it will appear to
+   fail. 
+   
+Attaching an ISO to a Instance
+------------------------------
+
+#. In the left navigation, click Instances.
+
+#. Choose the Instance you want to work with.
+
+#. Click the Attach ISO button. |iso.png|
+
+#. In the Attach ISO dialog box, select the desired ISO.
+
+#. Click OK.

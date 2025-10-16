@@ -1,0 +1,98 @@
+IP Forwarding
+---------------
+
+Source NAT
+~~~~~~~~~~~~
+
+A port forward service is a set of port forwarding rules that define a
+policy. A port forward service is then applied to one or more Guest Instances.
+The Guest Instance then has its inbound network access managed according to
+the policy defined by the port forwarding service. You can optionally
+specify one or more CIDRs to filter the source IPs. This is useful when
+you want to allow only incoming requests from certain IP addresses to be
+forwarded.
+
+A Guest Instance can be in any number of port forward services. Port forward
+services can be defined but have no members. If a Guest Instance is part of
+more than one network, port forwarding rules will function only if they
+are defined on the default network
+
+You cannot use port forwarding to open ports for an elastic IP address.
+When elastic IP is used, outside access is instead controlled through
+the use of security groups. See Security Groups.
+
+To set up port forwarding:
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation bar, click Network.
+
+#. Click the name of the guest network where the instances are running.
+
+#. Choose an existing IP address or acquire a new IP address. See
+   `"Acquiring a New IP Address" <#acquiring-a-new-ip-address>`_.
+   Click the name of the IP address in the list.
+
+#. Click the Port Forwarding tab.
+
+#. Fill in the following:
+
+   -  **Public Port**: The port to which public traffic will be
+      addressed on the IP address you acquired in the previous step.
+
+   -  **Private Port**: The port on which the instance is listening for
+      forwarded public traffic.
+
+   -  **Protocol**: The communication protocol in use between the two
+      ports
+
+#. Click Add.
+
+
+.. |egress-firewall-rule.png| image:: /_static/images/egress-firewall-rule.png
+   :alt: adding an egress firewall rule.
+
+
+
+
+
+Static NAT
+~~~~~~~~~~~~
+
+A static NAT rule maps a public IP address to the private IP address of
+an instance in order to allow Internet traffic into the instance. The public IP
+address always remains the same, which is why it is called static NAT.
+This section tells how to enable or disable static NAT for a particular
+IP address.
+
+
+Enabling or Disabling Static NAT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If port forwarding rules are already in effect for an IP address, you
+cannot enable static NAT to that IP.
+
+If a Guest Instance is part of more than one network, static NAT rules will
+function only if they are defined on the default network.
+
+#. Log in to the UI as an administrator or end user.
+
+#. In the left navigation, choose Network.
+
+#. Click the name of the network where you want to work with.
+
+#. Click Public IP Addresses.
+
+#. Click the IP address you want to work with.
+
+#. Click the Static NAT |enabledisablenat.png| button.
+
+   The button toggles between Enable and Disable, depending on whether
+   static NAT is currently enabled for the IP address.
+
+#. If you are enabling static NAT, a dialog appears where you can choose
+   the destination instance and click Apply.
+
+
+.. |enabledisablenat.png| image:: /_static/images/enable-disable.png
+   :alt: button to enable/disable NAT.

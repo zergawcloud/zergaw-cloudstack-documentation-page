@@ -1,0 +1,113 @@
+Managing Projects
+--------------------
+
+Setting Resource Limits for Projects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The administrator can set global default limits to control
+the amount of resources that can be owned by each project in the cloud.
+This serves to prevent uncontrolled usage of resources such as
+Snapshots, IP addresses, and Instances. Domain administrators can override
+these resource limits for individual projects with their domains,
+as long as the new limits are below the global defaults set by the
+root administrator. The root administrator can also set lower resource limits
+for any project in the cloud.
+
+Setting Per-Project Resource Limits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Domain administrator of the
+domain where the project resides can set new resource limits for an
+individual project. The project owner can set resource limits only if
+the owner is also a domain or root administrator.
+
+The new limits must be below the global default limits set by the administrator (as described in `“Setting
+Resource Limits for Projects” <#setting-resource-limits-for-projects>`_).
+If the project already owns more of a given type of resource than the
+new maximum, the resources are not affected; however, the project can
+not add any new resources of that type until the total drops below the
+new limit.
+
+#. Log in as administrator to the CloudStack UI.
+
+#. In the left navigation, click Projects.
+
+#. Click the name of the project you want to work with.
+
+#. Click the Resources tab. This tab lists the current maximum amount
+   that the project is allowed to own for each type of resource.
+
+#. Type new values for one or more resources.
+
+#. Click Apply.
+
+
+Creating a New Project
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Domain administrators can create projects.
+
+#. Log in as administrator to the CloudStack UI.
+
+#. In the left navigation, click Projects.
+
+#. Click New Project.
+
+#. Give the project a name and description for display to Users, then
+   click Create Project.
+
+#. A screen appears where you can immediately add more members to the
+   project. This is optional. Click Next when you are ready to move on.
+
+#. Click Save.
+
+Using the Project View
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are a member of a project, you can use the project view
+to see project members, resources consumed, and more. The project view
+shows only information related to one project. It is a useful way to
+filter out other information so you can concentrate on a project status
+and resources.
+
+#. Log in to the CloudStack UI.
+
+#. Click Project View.
+
+#. The project dashboard appears, showing the project’s Instances, volumes,
+   Users, events, network settings, and more. From the dashboard, you
+   can:
+
+   -  Click the Accounts tab to view and manage project members. If you
+      are the project administrator, you can add new members, remove
+      members, or change the role of a member from User to admin or vice versa.
+
+Suspending or Deleting a Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a project is suspended, it retains the resources it owns, but they
+can no longer be used. No new resources or members can be added to a
+suspended project.
+
+When a project is deleted, its resources are destroyed, and member
+Accounts are removed from the project. The project’s status is shown as
+Disabled pending final deletion.
+
+A project can be suspended or deleted by the project administrator, the
+domain administrator of the domain the project belongs to or of its
+parent domain, or the root administrator.
+
+#. Log in to the CloudStack UI.
+
+#. In the left navigation, click Projects.
+
+#. Click the name of the project.
+
+#. Click one of the buttons:
+
+   To delete, use |Removes a project|
+
+   To suspend, use |Suspends a project|
+
+.. |Removes a project| image:: /_static/images/delete-button.png
+.. |Suspends a project| image:: /_static/images/suspend-icon.png

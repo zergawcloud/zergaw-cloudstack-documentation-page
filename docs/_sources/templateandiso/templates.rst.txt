@@ -1,0 +1,242 @@
+Working With Templates
+=======================
+
+A Template is a reusable configuration for Instances. When Users
+launch Instances, they can choose from a list of Templates.
+
+Creating Templates: Overview
+----------------------------
+
+Zergaw CloudStack ships with a default Template. There are a variety of ways to add more Templates.
+Administrators and end Users can add Templates. The typical sequence of
+events is:
+
+#. Launch an Instance that has the operating system you want. Make any
+   other desired configuration changes to the Instance.
+
+#. Stop the Instance.
+
+#. Convert the volume into a Template.
+
+There are other ways to add Templates to CloudStack. For example, you
+can take a Snapshot of the Instance's volume and create a Template from the
+Snapshot, or import a VHD or QCOW2 from another system.
+
+The various techniques for creating Templates are described in the next
+few sections.
+
+The Default Template
+--------------------
+
+Zergaw CloudStack includes different default Templates. You can use this Template in your production deployment use custom Templates.
+
+The root password for the default Templates are generated during instance creation and shown as pop-up. Don't reload 
+the page until the instance creating pop up appeared.
+
+Private and Public Templates
+----------------------------
+
+When a User creates a Template, it can be designated private or public.
+
+Private Templates are only available to the User who created them. By
+default, an uploaded Template is private.
+
+When a User marks a Template as “public,” the Template becomes available
+to all Users in all Accounts in the User's domain, as well as Users in
+any other domains that have access to the Zone where the Template is
+stored. This depends on whether the Zone, in turn, was defined as
+private or public. A private Zone is assigned to a single domain, and a
+public Zone is accessible to any domain. If a public Template is created
+in a private Zone, it is available only to Users in the domain assigned
+to that Zone. If a public Template is created in a public Zone, it is
+available to all Users in all domains.
+
+.. _creating-a-template-from-an-existing-virtual-machine:
+
+
+Creating a Template from an Existing Instance
+---------------------------------------------
+
+Once you have at least one Instance set up in the way you want, you can use it
+as the prototype for other Instances.
+
+#. Create and start an Instance using any of the techniques given
+   in `“Creating Instances” <virtual_machines.html#creating-instances>`_.
+
+#. Make any desired configuration changes on the running Instance, then click
+   Stop.
+
+#. Wait for the Instance to stop. When the status shows Stopped, go to the
+   next step.
+
+#. Go into "View Volumes" and select the Volume having the type "ROOT".
+
+#. Click Create Template and provide the following:
+
+   -  **Name and Display Text**. These will be shown in the UI, so
+      choose something descriptive.
+
+   -  **OS Type**. This helps the hypervisor perform
+      certain operations and make assumptions that improve the
+      performance of the guest. Select one of the following.
+
+      -  If the operating system of the stopped Instance is listed, choose it.
+
+      -  If the OS type of the stopped Instance is not listed, choose Other.
+
+         .. note::
+            Generally you should not choose an older version of the OS
+            than the version in the image. For example, choosing CentOS
+            5.4 to support a CentOS 6.2 image will in general not work.
+            In those cases you should choose Other.
+
+
+   -  **Public**. Choose Yes to make this Template accessible to all
+      Users of this CloudStack installation. The Template will appear in
+      the Community Templates list. See `“Private and
+      Public Templates” <#private-and-public-templates>`_.
+
+   -  **Password Enabled**. Choose Yes if your Template has the
+      CloudStack password change script installed. See
+      :ref:`adding-password-management-to-templates`.
+
+#. Click Add.
+
+The new Template will be visible in the Templates section when the
+Template creation process has been completed. The Template is then
+available when creating a new Instance.
+
+Creating a Template from a Snapshot
+-----------------------------------
+
+If you do not want to stop the Instance in order to use the Create Template
+menu item (as described in `“Creating a Template from an Existing
+Instance” <#creating-a-template-from-an-existing-virtual-machine>`_),
+you can create a Template directly from any Snapshot through the
+CloudStack UI.
+
+Uploading Templates and ISOs from a local computer
+--------------------------------------------------
+
+It's also possible to upload an already prepared Template or an ISO from your local computer.
+
+Example GUI dialog of uploading Template/ISO from local (browser) is given below:
+
+|template-upload-from-local.png|
+
+|upload-iso-from-local.png|
+
+Note that uploading multi-disk Templates is also supported as well as selecting the template/ISO arch type.
+
+Sharing Templates and ISOs with other Accounts/projects
+-------------------------------------------------------
+
+When adding a Template/ISO, the owner can choose to make Template/ISO public or to keep it private. Once the Template/ISO is created, the owner can choose to share this Template/ISO so that other Accounts/Projects can also use the Template/ISO.
+
+Currently, the owners can share their Template/ISO with:
+  - other Accounts inside their own domain (i.e. can't share the Template/ISO with other Accounts in the subdomain of their domain or any other domains)
+  - projects where they belongs to (i.e. projects where they are the owners/creators or other projects where they have been joined)
+
+Template/ISO permissions can be changed via updateTemplatePermissions/updateIsoPermissions API call or via GUI. It is supported to add, remove or reset (remove all) Template/ISO permissions.
+
+When adding or removing permissions to/from a Template/ISO, it is required to specify Account/Project name which is being added/removed from the Template/ISO permissions.
+
+.. warning::
+      The images displayed below refer to Template permissions, but the same applies for ISO permissions.
+
+|template-permissions-update-manually-1.png|
+
+Sharing the Template with Account "user2"
+
+|template-permissions-update-manually-2.png|
+
+Revoking permissions from Account "user2"
+
+|template-permissions-update-1.png|
+
+Sharing the Template with just Account "user2"
+
+|template-permissions-update-2.png|
+
+Sharing Template with 2 specific projects
+
+|template-permissions-update-3.png|
+
+Revoking permissions from Account "user2"
+
+|template-permissions-update-4.png|
+
+Revoking permissions from both projects previously added
+
+
+Finally, Template permissions can be reset:
+
+|template-permissions-update-5.png|
+
+Resetting (removing all) permissions
+
+.. warning::
+      Project-owned Templates are not supported to be shared outside of
+      the Project, and if attempted to do so, a proper error message is shown.
+
+Exporting Templates
+-------------------
+
+End Users and Administrators may export Templates from the CloudStack.
+Navigate to the Template in the UI and choose the Download function from
+the Actions menu.
+
+.. include:: templates/_create_linux.rst
+
+.. include:: templates/_cloud_init.rst
+
+.. include:: templates/_create_windows.rst
+
+.. include:: templates/_password.rst
+
+
+Deleting Templates
+------------------
+
+Templates may be deleted. However when the Templates are used the default 
+behaviour is to refuse deletion. In general, when a Template spans multiple
+Zones, only the copy that is selected for deletion will be deleted; the
+same Template in other Zones will not be deleted.
+
+When Templates are deleted, the Instances instantiated from them will continue
+to run. However, new Instances cannot be created based on the deleted
+Template.
+
+As said, Cloudstack refuses to delete a template when VMs based on the
+template exist. If this is the case, the parameter "forced" can be set 
+to "true" to delete the template anyways. These VMs can no longer be
+reinstalled from that template, but will be unaffected otherwise.
+
+
+.. |sysmanager.png| image:: /_static/images/sysmanager.png
+   :alt: System Image Manager
+.. |software-license.png| image:: /_static/images/software-license.png
+   :alt: Depicts hiding the EULA page.
+.. |change-admin-password.png| image:: /_static/images/change-admin-password.png
+   :alt: Depicts changing the administrator password
+.. |kvm-direct-download.png| image:: /_static/images/kvm-direct-download.png
+.. |upload-iso-from-local.png| image:: /_static/images/upload-iso-from-local.png
+   :alt: Upload ISO from local
+.. |template-upload-from-local.png| image:: /_static/images/template-upload-from-local.png
+   :alt: Upload Template from local
+.. |template-permissions-update-manually-1.png| image:: /_static/images/template-permissions-update-manually-1.png
+   :alt: USharing template with Account "user2"
+.. |template-permissions-update-manually-2.png| image:: /_static/images/template-permissions-update-manually-2.png
+   :alt: Revoking permissions from Account "user2"
+.. |template-permissions-update-1.png| image:: /_static/images/template-permissions-update-1.png
+   :alt: Sharing template with just Account "user8"
+.. |template-permissions-update-2.png| image:: /_static/images/template-permissions-update-2.png
+   :alt: Sharing template with 2 specific projects
+.. |template-permissions-update-3.png| image:: /_static/images/template-permissions-update-3.png
+   :alt: Revoking permissions from Account "user8"
+.. |template-permissions-update-4.png| image:: /_static/images/template-permissions-update-4.png
+   :alt: Revoking permissions from both projects previously added
+.. |template-permissions-update-5.png| image:: /_static/images/template-permissions-update-5.png
+   :alt: Resetting (removing all) permissions
+.. |iso.png| image:: /_static/images/iso-icon.png
+   :alt: depicts adding an iso image
