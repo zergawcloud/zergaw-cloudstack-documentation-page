@@ -91,49 +91,41 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction/concepts.html">Terminologies</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iam/2fa.html">Using Two Factor Authentication For Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="projects/projectsoverview.html">Overview of Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="projects/managingprojects.html">Managing Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="projects/projectspermissions.html">Project Permissions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="templateandiso/templates.html">Working With Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="templateandiso/isos.html">Working with ISOs</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="networking/networkingoverview.html">Overview of Virtual Networks</a></li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/isolatednetwork.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpcnetwork.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpcnetworkmanagement.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/firewall.html">Firewall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/nat.html">IP Forwarding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/loadbalancer.html">IP Load Balancing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/publicip.html">Public IP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpn.html">VPN</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingtypes.html">Virtual Network Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingmanagement.html">Virtual Networks Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingservices.html">Virtual Network Services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="networking/networking/vnf.html">Virtual Network Functions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="instances/index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="instances/instanceoverview.html">Overview of Instance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
@@ -146,6 +138,8 @@
 <li class="toctree-l2"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="storage/volumeoverview.html">Volume Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="storage/volumemanagement.html">Volume Management</a></li>
@@ -172,225 +166,113 @@
 <p><img alt="menu_acs_logo" src="_images/zcslogo.svg"/></p>
 <section id="zergaw-cloudstack-s-documentation">
 <h1>Zergaw CloudStack’s Documentation<a class="headerlink" href="#zergaw-cloudstack-s-documentation" title="Link to this heading"><span>#</span></a></h1>
-<p>We have a number of guides, starting with a guide to cloudstack’s terminology and concepts, moving through some information about possible topologies.  We then have a quick start guide to help you get a very simple topology up and running. Followed by an indepth administration guide and further detailed guides on complex configurations.</p>
+<p>Zergaw CloudStack is Zergaw Cloud’s robust Infrastructure-as-a-Service (IaaS) platform, delivering flexible, secure, and high-performance cloud infrastructure for businesses and individuals. Powered by enterprise-grade virtualization and automation technologies, it allows users to deploy and manage virtual machines, networks, and storage resources effortlessly through a self-service portal and API.</p>
+<p>Built with scalability, reliability, and data sovereignty at its core, Zergaw CloudStack provides a fully managed cloud environment hosted within Ethiopia, empowering organizations to build and run critical workloads efficiently while maintaining complete control over their IT infrastructure.</p>
+<p>This documentation site offers a comprehensive collection of guides, beginning with onboarding and quick start tutorials, progressing through detailed administration and configuration topics, and including a variety of “how-to” articles that explore practical usage scenarios.</p>
+<p>Additionally, a dedicated FAQ section provides quick answers to common questions, helping users make the most of the Zergaw CloudStack platform.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#introduction'"><span>#</span></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#onboarding">Onboarding</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="introduction/onboarding.html">Onboarding</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#ui">UI</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="introduction/ui.html">User Interface</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#quick-start">Quick Start</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="introduction/quickstart.html">Quick Start</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#id1">Onboarding</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="introduction/concepts.html">Terminologies</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="iam/index.html">IAM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="iam/index.html#roles-accounts-users-and-domains">Roles, Accounts, Users, and Domains</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="iam/index.html#two-factor-authentication">Two factor Authentication</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iam/2fa.html">Using Two Factor Authentication For Users</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="iam/index.html#api-authentication">API Authentication</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="projects/index.html">Projects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="projects/projectsoverview.html">Overview of Projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="projects/managingprojects.html">Managing Projects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="projects/managingprojects.html#setting-resource-limits-for-projects">Setting Resource Limits for Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="projects/managingprojects.html#creating-a-new-project">Creating a New Project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="projects/managingprojects.html#using-the-project-view">Using the Project View</a></li>
-<li class="toctree-l3"><a class="reference internal" href="projects/managingprojects.html#suspending-or-deleting-a-project">Suspending or Deleting a Project</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="projects/projectspermissions.html">Project Permissions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="projects/projectspermissions.html#adding-members-to-a-project">Adding Members to a Project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="projects/projectspermissions.html#working-with-project-roles">Working with Project Roles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="projects/projectspermissions.html#adding-project-members-from-the-ui">Adding Project Members From the UI</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="templateandiso/index.html">Templates</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="templateandiso/templates.html">Working With Templates</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#creating-templates-overview">Creating Templates: Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#the-default-template">The Default Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#private-and-public-templates">Private and Public Templates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#creating-a-template-from-an-existing-instance">Creating a Template from an Existing Instance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#creating-a-template-from-a-snapshot">Creating a Template from a Snapshot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#uploading-templates-and-isos-from-a-local-computer">Uploading Templates and ISOs from a local computer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#sharing-templates-and-isos-with-other-accounts-projects">Sharing Templates and ISOs with other Accounts/projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#exporting-templates">Exporting Templates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#creating-a-linux-template">Creating a Linux Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#system-preparation-for-linux">System preparation for Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#id8">Cloud-init integration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#linux-with-cloud-init">Linux with Cloud-init</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#creating-a-windows-template">Creating a Windows Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#adding-password-management-to-templates">Adding Password Management to Your Templates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/templates.html#deleting-templates">Deleting Templates</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="templateandiso/isos.html">Working with ISOs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/isos.html#adding-an-iso">Adding an ISO</a></li>
-<li class="toctree-l3"><a class="reference internal" href="templateandiso/isos.html#attaching-an-iso-to-a-instance">Attaching an ISO to a Instance</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="networking/index.html">Networking</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="networking/networkingoverview.html">Overview of Virtual Networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networking/networkingtypes.html">Virtual Network Types</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/isolatednetwork.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpcnetwork.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="networking/networkingmanagement.html">Virtual Networks Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpcnetworkmanagement.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="networking/networkingservices.html">Virtual Network Services</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/firewall.html">Firewall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/nat.html">IP Forwarding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/loadbalancer.html">IP Load Balancing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/publicip.html">Public IP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vpn.html">VPN</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="networking/networking/vnf.html">Virtual Network Functions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vnf.html#adding-a-vnf-template-from-an-url">Adding a VNF template from an URL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vnf.html#updating-a-vm-template-to-vnf-template">Updating a VM template to VNF template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vnf.html#updating-the-vnf-settings-of-a-vnf-template">Updating the VNF settings of a VNF template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="networking/networking/vnf.html#deploying-vnf-appliances">Deploying VNF appliances</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="instances/index.html">Compute</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="instances/instanceoverview.html">Overview of Instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html#creating-instances">Creating Instances</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html#accessing-instances">Accessing Instances</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html#stopping-and-starting-instance">Stopping and Starting Instance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html#deleting-instance">Deleting Instance</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html">Instance Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#scheduling-operations-on-an-instance">Scheduling operations on an Instance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#changing-the-instance-name-os-or-group">Changing the Instance Name, OS, or Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#instance-delete-protection">Instance delete protection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#changing-the-service-offering-for-an-instance">Changing the Service Offering for an Instance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#changing-an-instance-s-base-image">Changing an Instance’s Base Image</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#instance-settings-for-virtual-trusted-platform-module-vtpm">Instance Settings for Virtual Trusted Platform Module (vTPM)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html#configuring-multiple-ip-addresses-on-a-single-nic">Configuring Multiple IP Addresses on a Single NIC</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancesnapshot.html">Instance Snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancesnapshot.html#limitations-on-instance-snapshots">Limitations on Instance Snapshots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancesnapshot.html#using-instance-snapshots">Using Instance Snapshots</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancesshkey.html">Instance SSH Keys</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancesshkey.html#creating-the-ssh-keypair">Creating the SSH Keypair</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancesshkey.html#logging-in-using-the-ssh-keypair">Logging In Using the SSH Keypair</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instancesshkey.html#resetting-ssh-keys">Resetting SSH Keys</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instanceuserdata.html">Instance User-Data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceuserdata.html#register-userdata">Register Userdata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceuserdata.html#storing-and-accessing-userdata">Storing and accessing userdata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceuserdata.html#resetting-userdata">Resetting UserData</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html">Instance AutoScaling</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#what-is-autoscaling">What is AutoScaling?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#adding-an-autoscale-instance-group">Adding an AutoScale Instance Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#autoscale-policies">AutoScale Policies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#disabling-and-enabling-an-autoscale-instance-group">Disabling and Enabling an AutoScale Instance Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#updating-an-autoscale-instance-group">Updating an AutoScale Instance Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#deleting-an-autoscale-instance-group">Deleting an AutoScale Instance Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html#runtime-considerations">Runtime Considerations</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="instances/kubernetesoverview.html">Overview of Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#creating-a-new-kubernetes-cluster">Creating a new Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#listing-kubernetes-clusters">Listing Kubernetes clusters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#stopping-kubernetes-cluster">Stopping Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#starting-a-stopped-kubernetes-cluster">Starting a stopped Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#scaling-kubernetes-cluster">Scaling Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#upgrading-kubernetes-cluster">Upgrading Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#deleting-kubernetes-cluster">Deleting Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#accessing-kubernetes-cluster">Accessing Kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html#kubernetes-cluster-web-dashboard">Kubernetes cluster web dashboard</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="storage/index.html">Storage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="storage/volumeoverview.html">Volume Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="storage/volumemanagement.html">Volume Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#creating-a-new-volume">Creating a New Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#uploading-an-existing-volume-to-an-instance">Uploading an Existing Volume to an Instance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#attaching-a-volume">Attaching a Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#detaching-and-moving-volumes">Detaching and Moving Volumes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#resizing-volumes">Resizing Volumes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#root-volume-size-defined-via-service-offering">Root Volume size defined via Service Offering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#change-disk-offering-for-volume">Change disk offering for volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#reset-instance-to-new-root-disk-on-reboot">Reset Instance to New Root Disk on Reboot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#volume-delete-protection">Volume delete protection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#volume-deletion-and-garbage-collection">Volume Deletion and Garbage Collection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volumemanagement.html#volume-metrics">Volume Metrics</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="storage/volume/volumesnapshot.html">Volume Snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#how-to-snapshot-a-volume">How to Snapshot a Volume</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#volume-snapshot-specifics">Volume Snapshot specifics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#automatic-snapshot-creation-and-retention">Automatic Snapshot Creation and Retention</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#volume-status">Volume Status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#snapshot-restore">Snapshot Restore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/volume/volumesnapshot.html#snapshot-copy">Snapshot Copy</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="storage/objectstorageoverview.html">Object Storage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="storage/objectstoragemanagement.html">Object Storage Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="storage/objectstoragemanagement.html#creating-a-new-bucket">Creating a New Bucket</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/objectstoragemanagement.html#browsing-objects-in-a-bucket">Browsing objects in a bucket</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/objectstoragemanagement.html#uploading-an-object-to-a-bucket">Uploading an object to a bucket</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/objectstoragemanagement.html#deleting-objects-from-a-bucket">Deleting objects from a bucket</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="storage/sharedfilesystemmanagement.html#creating-a-new-shared-filesystem">Creating a New Shared FileSystem</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/sharedfilesystemmanagement.html#access">Access</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/sharedfilesystemmanagement.html#lifecycle-operations">Lifecycle Operations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage/sharedfilesystemmanagement.html#shared-filesystem-instance">Shared FileSystem Instance</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#onboarding">Onboarding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#ui">UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/index.html#terminologies">Terminologies</a></li>
 </ul>
 </li>
 </ul>
 </div>
+</section>
+<section id="iam">
+<h2>IAM<a class="headerlink" href="#iam" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#iam'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="iam/index.html">IAM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iam/index.html#roles-accounts-users-and-domains">Roles, Accounts, Users, and Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iam/index.html#two-factor-authentication">Two factor Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iam/index.html#api-authentication">API Authentication</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="projects">
+<h2>Projects<a class="headerlink" href="#projects" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#projects'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="projects/index.html">Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="projects/projectsoverview.html">Overview of Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects/managingprojects.html">Managing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects/projectspermissions.html">Project Permissions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="templates-and-isos">
+<h2>Templates and ISOs<a class="headerlink" href="#templates-and-isos" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#templates-and-isos'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="templateandiso/index.html">Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="templateandiso/templates.html">Working With Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateandiso/isos.html">Working with ISOs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="networking">
+<h2>Networking<a class="headerlink" href="#networking" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#networking'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="networking/index.html">Networking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingoverview.html">Overview of Virtual Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingtypes.html">Virtual Network Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingmanagement.html">Virtual Networks Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networkingservices.html">Virtual Network Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking/networking/vnf.html">Virtual Network Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="instances">
+<h2>Instances<a class="headerlink" href="#instances" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#instances'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="instances/index.html">Compute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instances/instanceoverview.html">Overview of Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancemanagement.html">Instance Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancesnapshot.html">Instance Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instancesshkey.html">Instance SSH Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instanceuserdata.html">Instance User-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/virtual_machines/instanceautoscale.html">Instance AutoScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/kubernetesoverview.html">Overview of Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="storage">
+<h2>Storage<a class="headerlink" href="#storage" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#storage'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="storage/index.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="storage/volumeoverview.html">Volume Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/volumemanagement.html">Volume Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/volume/volumesnapshot.html">Volume Snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/objectstorageoverview.html">Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/objectstoragemanagement.html">Object Storage Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/sharedfilesystemoverview.html">Shared FileSystems Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage/sharedfilesystemmanagement.html">Shared FileSystems Management</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 </section>
 </div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
 <div class="ml-auto">
@@ -401,7 +283,19 @@
 </svg>
 </a>
 </div>
-</div></div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#introduction'" class="reference internal" href="#introduction">Introduction</a></li>
+<li><a :data-current="activeSection === '#iam'" class="reference internal" href="#iam">IAM</a></li>
+<li><a :data-current="activeSection === '#projects'" class="reference internal" href="#projects">Projects</a></li>
+<li><a :data-current="activeSection === '#templates-and-isos'" class="reference internal" href="#templates-and-isos">Templates and ISOs</a></li>
+<li><a :data-current="activeSection === '#networking'" class="reference internal" href="#networking">Networking</a></li>
+<li><a :data-current="activeSection === '#instances'" class="reference internal" href="#instances">Instances</a></li>
+<li><a :data-current="activeSection === '#storage'" class="reference internal" href="#storage">Storage</a></li>
+</ul>
+</div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">

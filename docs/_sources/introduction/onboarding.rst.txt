@@ -1,2 +1,33 @@
 Onboarding
---------------
+-----------
+
+Zergaw CloudStack provides a seamless onboarding experience that allows customers 
+to quickly access and manage their cloud infrastructure. There are currently two 
+main ways to acquire an account on the Zergaw CloudStack IaaS platform, through 
+our automated billing portal or via manual registration with our sales and customer 
+support team.
+
+Onboarding via the Billing Portal
+==================================
+
+Customers can sign up through our billing portal to create and manage their 
+cloud resource allocations. To get started, users need to register an account on 
+the billing portal and complete the KYC verification process. Once the account is 
+verified, customers can browse a variety of compute, storage, and network offerings 
+to design their desired cloud infrastructure and add the selected resources to 
+their cart. After completing the checkout process, the system automatically 
+provisions a dedicated tenant on the Zergaw CloudStack IaaS platform and sends 
+the customer their login credentials via email and SMS. This automated workflow ensures 
+a fast, transparent, and fully self-service onboarding experience.
+
+Onboarding via our Support Team
+================================
+
+Alternatively, customers can acquire a tenant on the Zergaw CloudStack IaaS platform 
+through manual account creation. To do this, customers may contact our support team 
+via their preferred communication channel and request a quotation for their desired 
+resource requirements. Once the order is confirmed and payment is completed, a 
+dedicated tenant will be provisioned on the platform. The access credentials 
+and related information will then be securely shared with the customer. 
+This process ensures that organizations with specific or custom needs can still be 
+onboarded efficiently while receiving personalized assistance from our team.

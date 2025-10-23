@@ -2,8 +2,7 @@ User Interface
 ------------------
 
 Zergaw CloudStack provides a web-based UI that can be used by both
-administrators and end Users. The appropriate version of the UI is
-displayed depending on the credentials used to log in. The UI is
+administrators and end Users. The UI is
 available in all modern popular browsers including Chrome, Firefox, Edge and
 Safari. The UI uses API auto-discovery to discover APIs allowed for a logged-in
 User and creates navigation and views based on that, and requires the following:

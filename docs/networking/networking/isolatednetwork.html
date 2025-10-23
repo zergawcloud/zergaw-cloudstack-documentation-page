@@ -84,7 +84,7 @@
 <a href="../../faq/index.html">FAQ</a>
 <a href="../../howto/index.html">How to's</a>
 </nav><nav class="table w-full min-w-full my-6 lg:my-8">
-<ul class="current">
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../introduction/index.html">Introduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../introduction/onboarding.html">Onboarding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../introduction/ui.html">User Interface</a></li>
@@ -92,49 +92,41 @@
 <li class="toctree-l2"><a class="reference internal" href="../../introduction/concepts.html">Terminologies</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../projects/projectsoverview.html">Overview of Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../projects/managingprojects.html">Managing Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../projects/projectspermissions.html">Project Permissions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../templateandiso/templates.html">Working With Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../templateandiso/isos.html">Working with ISOs</a></li>
 </ul>
 </li>
+</ul>
+<ul class="current">
 <li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../networkingoverview.html">Overview of Virtual Networks</a></li>
-<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="l2network.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vpcnetwork.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="isolatednetworkmanagement.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vpcnetworkmanagement.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="dnsdhcp.html">DNS and DHCP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="firewall.html">Firewall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nat.html">IP Forwarding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="loadbalancer.html">IP Load Balancing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="publicip.html">Public IP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vpn.html">VPN</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../networkingtypes.html">Virtual Network Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../networkingmanagement.html">Virtual Networks Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../networkingservices.html">Virtual Network Services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vnf.html">Virtual Network Functions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../instances/index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../instances/instanceoverview.html">Overview of Instance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
@@ -147,6 +139,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../storage/volumeoverview.html">Volume Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../storage/volumemanagement.html">Volume Management</a></li>

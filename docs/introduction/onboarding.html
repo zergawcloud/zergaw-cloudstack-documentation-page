@@ -92,49 +92,41 @@
 <li class="toctree-l2"><a class="reference internal" href="concepts.html">Terminologies</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../iam/index.html">IAM<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../iam/accounts.html">Roles, Accounts, Users, and Domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../iam/2fa.html">Using Two Factor Authentication For Users</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../iam/apikey.html">Using API Key and Secret Key based Authentication</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../projects/index.html">Projects<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../projects/projectsoverview.html">Overview of Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../projects/managingprojects.html">Managing Projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../projects/projectspermissions.html">Project Permissions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../templateandiso/index.html">Templates<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../templateandiso/templates.html">Working With Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../templateandiso/isos.html">Working with ISOs</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/index.html">Networking<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../networking/networkingoverview.html">Overview of Virtual Networks</a></li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingtypes.html">Virtual Network Types<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/isolatednetwork.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/l2network.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpcnetwork.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingmanagement.html">Virtual Networks Management<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/isolatednetworkmanagement.html">Isolated Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/l2networkmanagement.html">L2 (Layer 2) Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpcnetworkmanagement.html">VPC</a></li>
-</ul>
-</li>
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../networking/networkingservices.html">Virtual Network Services<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/dnsdhcp.html">DNS and DHCP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/firewall.html">Firewall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/nat.html">IP Forwarding</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/loadbalancer.html">IP Load Balancing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/publicip.html">Public IP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../networking/networking/vpn.html">VPN</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../networking/networkingtypes.html">Virtual Network Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../networking/networkingmanagement.html">Virtual Networks Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../networking/networkingservices.html">Virtual Network Services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../networking/networking/vnf.html">Virtual Network Functions</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../instances/index.html">Compute<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../instances/instanceoverview.html">Overview of Instance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../instances/virtual_machines/instancelifecycle.html">Instance Lifecycle</a></li>
@@ -147,6 +139,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../instances/kubernetes/kubernetesmanagement.html">Kubernetes Management</a></li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../storage/index.html">Storage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../storage/volumeoverview.html">Volume Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storage/volumemanagement.html">Volume Management</a></li>
@@ -182,6 +176,34 @@
 <div id="content" role="main">
 <section id="onboarding">
 <h1>Onboarding<a class="headerlink" href="#onboarding" title="Link to this heading"><span>#</span></a></h1>
+<p>Zergaw CloudStack provides a seamless onboarding experience that allows customers
+to quickly access and manage their cloud infrastructure. There are currently two
+main ways to acquire an account on the Zergaw CloudStack IaaS platform, through
+our automated billing portal or via manual registration with our sales and customer
+support team.</p>
+<section id="onboarding-via-the-billing-portal">
+<h2>Onboarding via the Billing Portal<a class="headerlink" href="#onboarding-via-the-billing-portal" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#onboarding-via-the-billing-portal'"><span>#</span></a></h2>
+<p>Customers can sign up through our billing portal to create and manage their
+cloud resource allocations. To get started, users need to register an account on
+the billing portal and complete the KYC verification process. Once the account is
+verified, customers can browse a variety of compute, storage, and network offerings
+to design their desired cloud infrastructure and add the selected resources to
+their cart. After completing the checkout process, the system automatically
+provisions a dedicated tenant on the Zergaw CloudStack IaaS platform and sends
+the customer their login credentials via email and SMS. This automated workflow ensures
+a fast, transparent, and fully self-service onboarding experience.</p>
+</section>
+<section id="onboarding-via-our-support-team">
+<h2>Onboarding via our Support Team<a class="headerlink" href="#onboarding-via-our-support-team" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#onboarding-via-our-support-team'"><span>#</span></a></h2>
+<p>Alternatively, customers can acquire a tenant on the Zergaw CloudStack IaaS platform
+through manual account creation. To do this, customers may contact our support team
+via their preferred communication channel and request a quotation for their desired
+resource requirements. Once the order is confirmed and payment is completed, a
+dedicated tenant will be provisioned on the platform. The access credentials
+and related information will then be securely shared with the customer.
+This process ensures that organizations with specific or custom needs can still be
+onboarded efficiently while receiving personalized assistance from our team.</p>
+</section>
 </section>
 </div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
 <div class="mr-auto">
@@ -200,7 +222,14 @@
 </svg>
 </a>
 </div>
-</div></div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#onboarding-via-the-billing-portal'" class="reference internal" href="#onboarding-via-the-billing-portal">Onboarding via the Billing Portal</a></li>
+<li><a :data-current="activeSection === '#onboarding-via-our-support-team'" class="reference internal" href="#onboarding-via-our-support-team">Onboarding via our Support Team</a></li>
+</ul>
+</div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">

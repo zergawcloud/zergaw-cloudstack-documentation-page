@@ -4,15 +4,67 @@
 Zergaw CloudStack's Documentation
 ==================================
 
-We have a number of guides, starting with a guide to cloudstack's terminology and concepts, moving through some information about possible topologies.  We then have a quick start guide to help you get a very simple topology up and running. Followed by an indepth administration guide and further detailed guides on complex configurations.
+Zergaw CloudStack is Zergaw Cloud’s robust Infrastructure-as-a-Service (IaaS) platform, delivering flexible, secure, and high-performance cloud infrastructure for businesses and individuals. Powered by enterprise-grade virtualization and automation technologies, it allows users to deploy and manage virtual machines, networks, and storage resources effortlessly through a self-service portal and API. 
+
+Built with scalability, reliability, and data sovereignty at its core, Zergaw CloudStack provides a fully managed cloud environment hosted within Ethiopia, empowering organizations to build and run critical workloads efficiently while maintaining complete control over their IT infrastructure. 
+
+This documentation site offers a comprehensive collection of guides, beginning with onboarding and quick start tutorials, progressing through detailed administration and configuration topics, and including a variety of “how-to” articles that explore practical usage scenarios. 
+
+Additionally, a dedicated FAQ section provides quick answers to common questions, helping users make the most of the Zergaw CloudStack platform.
+
+
+Introduction
+-------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    introduction/index
+
+IAM
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    iam/index
+
+Projects
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    projects/index
+
+Templates and ISOs
+-----------------------
+
+.. toctree::
+   :maxdepth: 2
+
    templateandiso/index
+
+Networking
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    networking/index
+
+Instances
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    instances/index
+
+Storage
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    storage/index

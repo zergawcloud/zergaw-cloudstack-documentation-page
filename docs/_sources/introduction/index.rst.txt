@@ -31,8 +31,8 @@ Quick Start
 
    quickstart
 
-Onboarding
-------------
+Terminologies
+--------------
 
 .. toctree::
    :maxdepth: 4
