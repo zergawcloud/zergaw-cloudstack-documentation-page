@@ -137,7 +137,7 @@ Deploying VNF appliances
        IP, enable static nat on the VNF appliance, and create firewall rules to allow
        traffic to ssh/http/https ports based on access_methods in VNF template details.
 
-     - If management network is a shared network with security groups, CloudStack will
+     - If management network is a shared network with security groups, Zergaw CloudStack will
        create a new security group with rules to allow traffic to ssh/http/https ports
        based on access_methods in VNF template details, and assign to the VNF appliance.
 

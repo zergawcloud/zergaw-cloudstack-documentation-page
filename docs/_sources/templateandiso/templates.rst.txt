@@ -18,7 +18,7 @@ events is:
 
 #. Convert the volume into a Template.
 
-There are other ways to add Templates to CloudStack. For example, you
+There are other ways to add Templates. For example, you
 can take a Snapshot of the Instance's volume and create a Template from the
 Snapshot, or import a VHD or QCOW2 from another system.
 
@@ -92,12 +92,12 @@ as the prototype for other Instances.
 
 
    -  **Public**. Choose Yes to make this Template accessible to all
-      Users of this CloudStack installation. The Template will appear in
+      Users. The Template will appear in
       the Community Templates list. See `“Private and
       Public Templates” <#private-and-public-templates>`_.
 
    -  **Password Enabled**. Choose Yes if your Template has the
-      CloudStack password change script installed. See
+      password change script installed. See
       :ref:`adding-password-management-to-templates`.
 
 #. Click Add.
@@ -112,8 +112,7 @@ Creating a Template from a Snapshot
 If you do not want to stop the Instance in order to use the Create Template
 menu item (as described in `“Creating a Template from an Existing
 Instance” <#creating-a-template-from-an-existing-virtual-machine>`_),
-you can create a Template directly from any Snapshot through the
-CloudStack UI.
+you can create a Template directly from any Snapshot through the UI.
 
 Uploading Templates and ISOs from a local computer
 --------------------------------------------------
@@ -182,7 +181,7 @@ Resetting (removing all) permissions
 Exporting Templates
 -------------------
 
-End Users and Administrators may export Templates from the CloudStack.
+End Users and Administrators may export Templates.
 Navigate to the Template in the UI and choose the Download function from
 the Actions menu.
 
@@ -207,7 +206,7 @@ When Templates are deleted, the Instances instantiated from them will continue
 to run. However, new Instances cannot be created based on the deleted
 Template.
 
-As said, Cloudstack refuses to delete a template when VMs based on the
+As said, Zergaw Cloudstack refuses to delete a template when VMs based on the
 template exist. If this is the case, the parameter "forced" can be set 
 to "true" to delete the template anyways. These VMs can no longer be
 reinstalled from that template, but will be unaffected otherwise.

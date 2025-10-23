@@ -4,4 +4,4 @@ Users can generate API key and Secret key to directly access Zergaw CloudStack A
 This authentication method is used for programmatically calling Zergaw CloudStack APIs and thus helps in automation.
 The API key uniquely identifies the Account, while the Secret key is used to generate a secure signature.
 When making an API call, the API key and signature are included along with the command and other parameters,
-and sent to the CloudStack API endpoint. 
+and sent to the API endpoint. 

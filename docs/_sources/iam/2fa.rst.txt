@@ -1,10 +1,10 @@
 Using Two Factor Authentication For Users
 ------------------------------------------
 
-CloudStack supports two factor authentication wherein Users need to provide a 2FA code after the
-regular login using username and password. CloudStack currently supports Google Authenticator or
+Zergaw CloudStack supports two factor authentication wherein Users need to provide a 2FA code after the
+regular login using username and password. Zergaw CloudStack currently supports Google Authenticator or
 other TOTP authenticators and static PIN as the 2FA providers. Other 2FA providers can be easily
-integrated with CloudStack using its plugin model.
+integrated with Zergaw CloudStack using its plugin model.
 
 .. Note:: 2FA is applicable to authentication mechanisms using username/password,
           LDAP, SAML. While using apikey/secretkey 2FA checks will be bypassed.

@@ -28,7 +28,7 @@ new maximum, the resources are not affected; however, the project can
 not add any new resources of that type until the total drops below the
 new limit.
 
-#. Log in as administrator to the CloudStack UI.
+#. Log in as administrator to the UI.
 
 #. In the left navigation, click Projects.
 
@@ -47,7 +47,7 @@ Creating a New Project
 
 Domain administrators can create projects.
 
-#. Log in as administrator to the CloudStack UI.
+#. Log in as administrator to the UI.
 
 #. In the left navigation, click Projects.
 
@@ -70,7 +70,7 @@ shows only information related to one project. It is a useful way to
 filter out other information so you can concentrate on a project status
 and resources.
 
-#. Log in to the CloudStack UI.
+#. Log in to the UI.
 
 #. Click Project View.
 
@@ -97,7 +97,7 @@ A project can be suspended or deleted by the project administrator, the
 domain administrator of the domain the project belongs to or of its
 parent domain, or the root administrator.
 
-#. Log in to the CloudStack UI.
+#. Log in to the UI.
 
 #. In the left navigation, click Projects.
 

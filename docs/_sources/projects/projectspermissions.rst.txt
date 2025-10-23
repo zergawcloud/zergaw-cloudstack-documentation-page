@@ -25,7 +25,7 @@ Adding Project Members From the UI
 
 The steps below tell how to add a new member to a project.
 
-#. Log in to the CloudStack UI.
+#. Log in to the UI.
 
 #. In the left navigation, click Projects.
 

@@ -62,7 +62,7 @@ been reached.
 To upload a volume:
 
 #. (Optional) Create an MD5 hash (checksum) of the disk image file that
-   you are going to upload. After uploading the data disk, CloudStack
+   you are going to upload. After uploading the data disk, Zergaw CloudStack
    will use this value to verify that no data corruption has occurred.
 
 #. Log in to the UI as an administrator or User

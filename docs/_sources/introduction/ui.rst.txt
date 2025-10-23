@@ -10,6 +10,8 @@ User and creates navigation and views based on that, and requires the following:
 - API discovery (listApis) enabled for all roles that must use the UI
 - Modern browsers that are `ES5-compliant <https://github.com/vuejs/vue#browser-compatibility>`_
 
+.. figure:: /_static/images/introduction-ui.png
+
 .. _log-in-to-ui:
 
 Log In to the UI
@@ -23,6 +25,8 @@ The URL to login to Zergaw Cloudstack UI is:
 
 You’ll see a login screen where you specify
 the following to proceed to your Dashboard:
+
+.. figure:: /_static/images/introduction-login.png
 
 Username -> The provided User ID of your Account.
 
@@ -40,8 +44,8 @@ enter enterprise/xyz.com/hr.
 End User's UI Overview
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The CloudStack UI helps Users of cloud infrastructure to view and use
+Zergaw CloudStack UI helps Users of cloud infrastructure to view and use
 their cloud resources, including Instances, Templates and ISOs,
 data volumes and Snapshots, Guest Networks, and IP addresses. If the
-User is a member or administrator of one or more CloudStack projects,
+User is a member or administrator of one or more projects,
 the UI can provide a project-oriented view.

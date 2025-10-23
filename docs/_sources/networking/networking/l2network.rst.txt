@@ -10,7 +10,7 @@ IP addresses.
    which allow the network creator to specify a VLAN can only be created
    by the root admins.
 
--  CloudStack does not assign IP addresses to instances.
+-  Zergaw CloudStack does not assign IP addresses to instances.
 
 -  Userdata and metadata can be passed to the instance using a config drive
    (which must be enabled in the network service offering)
